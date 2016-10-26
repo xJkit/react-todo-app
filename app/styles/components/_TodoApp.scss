@@ -1,0 +1,13 @@
+.todo-app{
+  text-align: center;
+
+  .container {
+    display: inline-block;
+    width: 400px;
+    height: auto;
+    text-align: left;
+    padding: 1rem;
+    background-color: $grey;
+    border-radius: 5px;
+  }
+}

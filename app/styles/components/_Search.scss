@@ -1,0 +1,22 @@
+.search{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  padding: 1rem 0;
+
+  input{
+    line-height: 2;
+  }
+
+  .check-row {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+
+    p {
+      margin: 0 1rem;
+    }
+
+  }
+}

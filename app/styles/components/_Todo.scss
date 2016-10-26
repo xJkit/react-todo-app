@@ -1,0 +1,12 @@
+.todo {
+  display: flex;
+  align-items: center;
+
+  .title, .stamp {
+    padding-left: 1rem;
+    line-height: 1.6;
+  }
+  .stamp {
+    color: $deep-gray;
+  }
+}

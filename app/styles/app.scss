@@ -1,4 +1,9 @@
+//normalize
+@import "vendor/normalize";
 @import "base/variables";
 
 // Custom Components
-@import "components/Main";
+@import "components/TodoApp";
+@import "components/Search";
+@import "components/AddTodo";
+@import "components/Todo";

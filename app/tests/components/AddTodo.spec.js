@@ -2,10 +2,10 @@ import React from 'react'
 import expect from 'expect'
 import {shallow} from 'enzyme'
 
-import NotFound from 'NotFound'
+import AddTodo from 'AddTodo'
 
-describe('<NotFound />', () => {
+describe('<AddTodo />', () => {
   it('should exist', () => {
-    expect(NotFound).toExist()
+    expect(AddTodo).toExist()
   })
 })
