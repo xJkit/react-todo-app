@@ -12,8 +12,8 @@ describe('<Todo />', () => {
   describe('rendering check', () => {
     it('should render default title', () => {
       const wrapper = mount(<Todo />)
-      expect(wrapper.find('.todo-title').length).toBe(1)
-      expect(wrapper.find('.todo-title').text()).toBe('John Appleseed')
+      expect(wrapper.find('.title').length).toBe(1)
+      expect(wrapper.find('.title').text()).toBe('John Appleseed')
     })
   })
 })

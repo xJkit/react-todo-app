@@ -3,12 +3,16 @@ import React, {PropTypes} from 'react'
 import Todo from 'Todo'
 
 const TodoList = (props) => {
+
   return(
     <div className="todo-list">
-      <Todo title="Film introduction video" date="Jun 27th" time="12:11 pm" />
-      <Todo />
+      {props.todos.map( todo => <Todo key={todo.id} {...todo} /> )}
     </div>
   )
+}
+
+TodoList.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default TodoList
