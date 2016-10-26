@@ -27910,6 +27910,8 @@
 	    key: 'render',
 	    value: function () {
 	      function render() {
+	        var _this2 = this;
+	
 	        return _react2['default'].createElement(
 	          'div',
 	          { className: 'todo-app' },
@@ -27924,12 +27926,36 @@
 	            _react2['default'].createElement(_Search2['default'], null),
 	            _react2['default'].createElement('hr', null),
 	            _react2['default'].createElement(_TodoList2['default'], { todos: this.state.todos }),
-	            _react2['default'].createElement(_AddTodo2['default'], null)
+	            _react2['default'].createElement(_AddTodo2['default'], { handleAddTodo: function () {
+	                function handleAddTodo(todo) {
+	                  return _this2.handleAddTodo(todo);
+	                }
+	
+	                return handleAddTodo;
+	              }() })
 	          )
 	        );
 	      }
 	
 	      return render;
+	    }()
+	  }, {
+	    key: 'handleAddTodo',
+	    value: function () {
+	      function handleAddTodo(title) {
+	        var todos = this.state.todos;
+	
+	        var numberOfTodos = todos.length;
+	        var newTodos = todos.concat({
+	          id: numberOfTodos + 1,
+	          title: title
+	        });
+	        this.setState({
+	          todos: newTodos
+	        });
+	      }
+	
+	      return handleAddTodo;
 	    }()
 	  }]);
 	
@@ -28150,51 +28176,48 @@
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var AddTodo = function AddTodo(props) {
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	  var onAddTodo = function onAddTodo(evt) {
+	    evt.preventDefault();
+	    var handleAddTodo = props.handleAddTodo;
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	    var newTodoItem = evt.target.elements[0].value;
+	    if (newTodoItem.length > 0) {
+	      evt.target.elements[0].value = "";
+	      handleAddTodo(newTodoItem);
+	    } else {
+	      evt.target.elements[0].focus();
+	    }
+	  };
 	
-	var AddTodo = function (_Component) {
-	  _inherits(AddTodo, _Component);
+	  return _react2["default"].createElement(
+	    "form",
+	    { className: "add-todo", onSubmit: function () {
+	        function onSubmit(evt) {
+	          return onAddTodo(evt);
+	        }
 	
-	  function AddTodo(props) {
-	    _classCallCheck(this, AddTodo);
+	        return onSubmit;
+	      }() },
+	    _react2["default"].createElement("input", { type: "text", placeholder: "\u4F60\u60F3\u505A\u4E9B\u4EC0\u9EBC\uFF1F" }),
+	    _react2["default"].createElement(
+	      "button",
+	      { className: "button expanded primary" },
+	      "\u65B0\u589E Todo "
+	    )
+	  );
+	};
 	
-	    return _possibleConstructorReturn(this, (AddTodo.__proto__ || Object.getPrototypeOf(AddTodo)).call(this, props));
-	  }
-	
-	  _createClass(AddTodo, [{
-	    key: "render",
-	    value: function () {
-	      function render() {
-	        return _react2["default"].createElement(
-	          "form",
-	          { className: "add-todo" },
-	          _react2["default"].createElement("input", { type: "text", placeholder: "\u4F60\u60F3\u505A\u4E9B\u4EC0\u9EBC\uFF1F", ref: "addTodoTerm" }),
-	          _react2["default"].createElement(
-	            "button",
-	            { className: "button expanded primary" },
-	            "\u65B0\u589E Todo "
-	          )
-	        );
-	      }
-	
-	      return render;
-	    }()
-	  }]);
-	
-	  return AddTodo;
-	}(_react.Component);
+	AddTodo.propTypes = {
+	  handleAddTodo: _react.PropTypes.func
+	};
 	
 	exports["default"] = AddTodo;
 

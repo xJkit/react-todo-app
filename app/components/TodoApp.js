@@ -42,10 +42,22 @@ class TodoApp extends Component {
           <Search />
           <hr/>
           <TodoList todos={this.state.todos}/>
-          <AddTodo />
+          <AddTodo handleAddTodo={(todo) => this.handleAddTodo(todo)}/>
         </div>
       </div>
     )
+  }
+
+  handleAddTodo(title) {
+    const {todos} = this.state
+    const numberOfTodos = todos.length
+    const newTodos = todos.concat({
+      id: numberOfTodos + 1,
+      title: title
+    })
+    this.setState({
+      todos: newTodos
+    })
   }
 }
 
