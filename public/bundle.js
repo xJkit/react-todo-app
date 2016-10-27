@@ -28105,7 +28105,7 @@
 	    'div',
 	    { className: 'todo-list' },
 	    props.todos.map(function (todo) {
-	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: 1 }, todo));
+	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: todo.id }, todo));
 	    })
 	  );
 	};
