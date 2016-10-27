@@ -9,6 +9,17 @@ describe('<TodoApp />', () => {
     expect(TodoApp).toExist()
   })
 
+
+  it('should add todo items to the state via handleAddTodo', () => {
+    const wrapper = shallow(<TodoApp />)
+    const title = "A todo title here..."
+    wrapper.setState({todos: []})
+    wrapper.instance().handleAddTodo(title)
+    expect(wrapper.state('todos').length).toBe(1)
+    expect(wrapper.state('todos')[0].title).toBe(title)
+  })
+
+
   describe('rendering check', () => {
     const wrapper = shallow(<TodoApp />)
 

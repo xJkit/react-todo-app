@@ -28,7 +28,7 @@ Todo.defaultProps = {
 
 Todo.propTypes = {
   title: PropTypes.string,
-  id: PropTypes.number
+  id: PropTypes.string
 }
 
 

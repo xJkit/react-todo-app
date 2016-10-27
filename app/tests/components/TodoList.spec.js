@@ -13,13 +13,13 @@ describe('<TodoList />', () => {
     it('should render correct Todo items', () =>{
       const todos = [
         {
-          id: 1,
+          id: "abc",
           title: "The first todo"
         }, {
-          id: 2,
+          id: "cde",
           title: "The second todo"
         }, {
-          id: 3,
+          id: "efg",
           title: "The third todo"
         }
       ]

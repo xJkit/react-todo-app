@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import uuid from 'node-uuid'
 //components
 import Search from 'Search'
 import TodoList from 'TodoList'
@@ -31,9 +32,8 @@ class TodoApp extends Component {
 
   handleAddTodo(title) {
     const {todos} = this.state
-    const numberOfTodos = todos.length
     const newTodos = todos.concat({
-      id: numberOfTodos + 1,
+      id: uuid.v1(),
       title: title
     })
     this.setState({
