@@ -19,6 +19,25 @@ describe('<TodoApp />', () => {
     expect(wrapper.state('todos')[0].title).toBe(title)
   })
 
+  it('should checked true or false after handleCompleteChecked is called', () => {
+    const todo = {
+      id: "abc",
+      title: "todo item example",
+      completed: false
+    }
+    const wrapper = shallow(<TodoApp />)
+    wrapper.setState({
+      todos: [todo]
+    })
+    expect(wrapper.state('todos')[0].completed).toBe(false)
+    wrapper.instance().handleCompleteChecked(true, 'abc')
+    expect(wrapper.state('todos')[0].completed).toBe(true)
+    wrapper.instance().handleCompleteChecked(false, 'def')
+    expect(wrapper.state('todos')[0].completed).toBe(true)
+    wrapper.instance().handleCompleteChecked(false, 'abc')
+    expect(wrapper.state('todos')[0].completed).toBe(false)
+  })
+
 
   describe('rendering check', () => {
     const wrapper = shallow(<TodoApp />)

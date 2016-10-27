@@ -1,23 +1,28 @@
 import React, {PropTypes, Component} from 'react'
 
-class Todo extends Component {
-  constructor(props){
-    super(props)
+const Todo = (props) => {
+  const {title, date, time, id, handleCompleteChecked} = props
+
+
+  const onCompleteChecked = (evt) => {
+    const checked = evt.target.checked
+    const id = evt.target.id
+    handleCompleteChecked(checked, id)
   }
 
-  render(){
-    const {title, date, time, id} = this.props
-
-    return(
-      <form className="todo">
-        <input id={`todo${id}`} type="checkbox" ref="todo"/>
-        <label htmlFor={`todo${id}`} className="info">
-          <div className="title">{title}</div>
-          <div className="stamp">Created {date} @ {time}</div>
-        </label>
-      </form>
-    )
-  }
+  return(
+    <form className="todo">
+      <input
+        id={id}
+        type="checkbox"
+        onChange={(evt) => onCompleteChecked(evt)}
+        />
+      <label htmlFor={id} className="info">
+        <div className="title">{title}</div>
+        <div className="stamp">Created {date} @ {time}</div>
+      </label>
+    </form>
+  )
 }
 
 Todo.defaultProps = {
@@ -28,8 +33,10 @@ Todo.defaultProps = {
 
 Todo.propTypes = {
   title: PropTypes.string,
-  id: PropTypes.string
+  id: PropTypes.string,
+  date: PropTypes.string,
+  time: PropTypes.string,
+  handleCompleteChecked: PropTypes.func
 }
-
 
 export default Todo

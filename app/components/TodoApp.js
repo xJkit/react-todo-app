@@ -23,7 +23,10 @@ class TodoApp extends Component {
         <div className="container">
           <Search handleSearchTermBy={(term, showComplete) => this.handleSearchTermBy(term, showComplete)}/>
           <hr/>
-          <TodoList todos={this.state.todos}/>
+          <TodoList
+            todos={this.state.todos}
+            handleCompleteChecked={(checked, id) => this.handleCompleteChecked(checked, id)}
+            />
           <AddTodo handleAddTodo={(todo) => this.handleAddTodo(todo)}/>
         </div>
       </div>
@@ -34,7 +37,8 @@ class TodoApp extends Component {
     const {todos} = this.state
     const newTodos = todos.concat({
       id: uuid.v1(),
-      title: title
+      title: title,
+      completed: false
     })
     this.setState({
       todos: newTodos
@@ -48,6 +52,25 @@ class TodoApp extends Component {
       showComplete: showComplete
     })
   }
+
+  handleCompleteChecked(checked, id) {
+    const {todos} = this.state
+    const newTodos = todos.map( (todo) => {
+      if(todo.id == id){
+        todo.completed = checked
+        return todo
+      } else {
+        return todo
+      }
+    })
+
+    this.setState({
+      todos: newTodos
+    })
+  }
+
+
+
 }
 
 export default TodoApp

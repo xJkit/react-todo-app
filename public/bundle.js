@@ -27922,7 +27922,16 @@
 	                return handleSearchTermBy;
 	              }() }),
 	            _react2['default'].createElement('hr', null),
-	            _react2['default'].createElement(_TodoList2['default'], { todos: this.state.todos }),
+	            _react2['default'].createElement(_TodoList2['default'], {
+	              todos: this.state.todos,
+	              handleCompleteChecked: function () {
+	                function handleCompleteChecked(checked, id) {
+	                  return _this2.handleCompleteChecked(checked, id);
+	                }
+	
+	                return handleCompleteChecked;
+	              }()
+	            }),
 	            _react2['default'].createElement(_AddTodo2['default'], { handleAddTodo: function () {
 	                function handleAddTodo(todo) {
 	                  return _this2.handleAddTodo(todo);
@@ -27944,7 +27953,8 @@
 	
 	        var newTodos = todos.concat({
 	          id: _nodeUuid2['default'].v1(),
-	          title: title
+	          title: title,
+	          completed: false
 	        });
 	        this.setState({
 	          todos: newTodos
@@ -27965,6 +27975,28 @@
 	      }
 	
 	      return handleSearchTermBy;
+	    }()
+	  }, {
+	    key: 'handleCompleteChecked',
+	    value: function () {
+	      function handleCompleteChecked(checked, id) {
+	        var todos = this.state.todos;
+	
+	        var newTodos = todos.map(function (todo) {
+	          if (todo.id == id) {
+	            todo.completed = checked;
+	            return todo;
+	          } else {
+	            return todo;
+	          }
+	        });
+	
+	        this.setState({
+	          todos: newTodos
+	        });
+	      }
+	
+	      return handleCompleteChecked;
 	    }()
 	  }]);
 	
@@ -28100,12 +28132,19 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	var TodoList = function TodoList(props) {
+	  var _handleCompleteChecked = props.handleCompleteChecked;
 	
 	  return _react2['default'].createElement(
 	    'div',
 	    { className: 'todo-list' },
 	    props.todos.map(function (todo) {
-	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: todo.id }, todo));
+	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: todo.id }, todo, { handleCompleteChecked: function () {
+	          function handleCompleteChecked(checked, id) {
+	            return _handleCompleteChecked(checked, id);
+	          }
+	
+	          return handleCompleteChecked;
+	        }() }));
 	    })
 	  );
 	};
@@ -28129,70 +28168,59 @@
 	  value: true
 	});
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Todo = function (_Component) {
-	  _inherits(Todo, _Component);
-	
-	  function Todo(props) {
-	    _classCallCheck(this, Todo);
-	
-	    return _possibleConstructorReturn(this, (Todo.__proto__ || Object.getPrototypeOf(Todo)).call(this, props));
-	  }
-	
-	  _createClass(Todo, [{
-	    key: "render",
-	    value: function () {
-	      function render() {
-	        var _props = this.props,
-	            title = _props.title,
-	            date = _props.date,
-	            time = _props.time,
-	            id = _props.id;
+	var Todo = function Todo(props) {
+	  var title = props.title,
+	      date = props.date,
+	      time = props.time,
+	      id = props.id,
+	      handleCompleteChecked = props.handleCompleteChecked;
 	
 	
-	        return _react2["default"].createElement(
-	          "form",
-	          { className: "todo" },
-	          _react2["default"].createElement("input", { id: "todo" + String(id), type: "checkbox", ref: "todo" }),
-	          _react2["default"].createElement(
-	            "label",
-	            { htmlFor: "todo" + String(id), className: "info" },
-	            _react2["default"].createElement(
-	              "div",
-	              { className: "title" },
-	              title
-	            ),
-	            _react2["default"].createElement(
-	              "div",
-	              { className: "stamp" },
-	              "Created ",
-	              date,
-	              " @ ",
-	              time
-	            )
-	          )
-	        );
-	      }
+	  var onCompleteChecked = function onCompleteChecked(evt) {
+	    var checked = evt.target.checked;
+	    var id = evt.target.id;
+	    handleCompleteChecked(checked, id);
+	  };
 	
-	      return render;
-	    }()
-	  }]);
+	  return _react2["default"].createElement(
+	    "form",
+	    { className: "todo" },
+	    _react2["default"].createElement("input", {
+	      id: id,
+	      type: "checkbox",
+	      onChange: function () {
+	        function onChange(evt) {
+	          return onCompleteChecked(evt);
+	        }
 	
-	  return Todo;
-	}(_react.Component);
+	        return onChange;
+	      }()
+	    }),
+	    _react2["default"].createElement(
+	      "label",
+	      { htmlFor: id, className: "info" },
+	      _react2["default"].createElement(
+	        "div",
+	        { className: "title" },
+	        title
+	      ),
+	      _react2["default"].createElement(
+	        "div",
+	        { className: "stamp" },
+	        "Created ",
+	        date,
+	        " @ ",
+	        time
+	      )
+	    )
+	  );
+	};
 	
 	Todo.defaultProps = {
 	  title: "John Appleseed",
@@ -28202,7 +28230,10 @@
 	
 	Todo.propTypes = {
 	  title: _react.PropTypes.string,
-	  id: _react.PropTypes.string
+	  id: _react.PropTypes.string,
+	  date: _react.PropTypes.string,
+	  time: _react.PropTypes.string,
+	  handleCompleteChecked: _react.PropTypes.func
 	};
 	
 	exports["default"] = Todo;
