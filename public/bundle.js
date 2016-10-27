@@ -27908,7 +27908,13 @@
 	          _react2['default'].createElement(
 	            'div',
 	            { className: 'container' },
-	            _react2['default'].createElement(_Search2['default'], null),
+	            _react2['default'].createElement(_Search2['default'], { handleSearchTermBy: function () {
+	                function handleSearchTermBy(term, showComplete) {
+	                  return _this2.handleSearchTermBy(term, showComplete);
+	                }
+	
+	                return handleSearchTermBy;
+	              }() }),
 	            _react2['default'].createElement('hr', null),
 	            _react2['default'].createElement(_TodoList2['default'], { todos: this.state.todos }),
 	            _react2['default'].createElement(_AddTodo2['default'], { handleAddTodo: function () {
@@ -27941,6 +27947,15 @@
 	      }
 	
 	      return handleAddTodo;
+	    }()
+	  }, {
+	    key: 'handleSearchTermBy',
+	    value: function () {
+	      function handleSearchTermBy(term, showComplete) {
+	        console.log('search for: ' + String(term) + ', completed: ' + String(showComplete));
+	      }
+	
+	      return handleSearchTermBy;
 	    }()
 	  }]);
 	
@@ -27986,13 +28001,42 @@
 	  }
 	
 	  _createClass(Search, [{
+	    key: "onSearchTermBy",
+	    value: function () {
+	      function onSearchTermBy(evt) {
+	        evt.preventDefault();
+	        var handleSearchTermBy = this.props.handleSearchTermBy;
+	
+	        var term = this.refs.searchTerm.value;
+	        var showComplete = this.refs.showComplete.checked;
+	
+	        handleSearchTermBy(term, showComplete);
+	      }
+	
+	      return onSearchTermBy;
+	    }()
+	  }, {
 	    key: "render",
 	    value: function () {
 	      function render() {
+	        var _this2 = this;
+	
 	        return _react2["default"].createElement(
 	          "div",
 	          { className: "search" },
-	          _react2["default"].createElement("input", { className: "search-bar", type: "text", placeholder: "\u641C\u5C0B Todos", ref: "searchTerm" }),
+	          _react2["default"].createElement("input", {
+	            className: "search-bar",
+	            type: "text",
+	            placeholder: "\u641C\u5C0B Todos",
+	            ref: "searchTerm",
+	            onChange: function () {
+	              function onChange(evt) {
+	                return _this2.onSearchTermBy(evt);
+	              }
+	
+	              return onChange;
+	            }()
+	          }),
 	          _react2["default"].createElement(
 	            "form",
 	            { className: "check-row" },
@@ -28012,6 +28056,10 @@
 	
 	  return Search;
 	}(_react.Component);
+	
+	Search.propTypes = {
+	  handleSearchTermBy: _react.PropTypes.func
+	};
 	
 	exports["default"] = Search;
 

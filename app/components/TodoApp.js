@@ -18,7 +18,7 @@ class TodoApp extends Component {
       <div className="todo-app">
         <h1>Todo App</h1>
         <div className="container">
-          <Search />
+          <Search handleSearchTermBy={(term, showComplete) => this.handleSearchTermBy(term, showComplete)}/>
           <hr/>
           <TodoList todos={this.state.todos}/>
           <AddTodo handleAddTodo={(todo) => this.handleAddTodo(todo)}/>
@@ -37,6 +37,10 @@ class TodoApp extends Component {
     this.setState({
       todos: newTodos
     })
+  }
+
+  handleSearchTermBy(term, showComplete) {
+    console.log(`search for: ${term}, completed: ${showComplete}`)
   }
 }
 
