@@ -11,10 +11,10 @@ class Search extends Component {
     return(
       <div className="search">
         <input className="search-bar" type="text" placeholder="搜尋 Todos" ref="searchTerm"/>
-        <div className="check-row">
-          <input className="search-show-complete" type="checkbox" name="show-complete" ref="showComplete"/>
-          <p>顯示已完成</p>
-        </div>
+        <form className="check-row">
+            <input className="search-show-complete" id="show-complete" type="checkbox" name="show-complete" ref="showComplete"/>
+            <label htmlFor="show-complete" >顯示已完成</label>
+        </form>
       </div>
     )
   }

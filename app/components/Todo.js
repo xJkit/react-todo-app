@@ -6,15 +6,15 @@ class Todo extends Component {
   }
 
   render(){
-    const {title, date, time} = this.props
+    const {title, date, time, id} = this.props
 
     return(
       <form className="todo">
-        <input type="checkbox" ref="todo"/>
-        <div className="info">
+        <input id={`todo${id}`} type="checkbox" ref="todo"/>
+        <label htmlFor={`todo${id}`} className="info">
           <div className="title">{title}</div>
           <div className="stamp">Created {date} @ {time}</div>
-        </div>
+        </label>
       </form>
     )
   }
@@ -27,7 +27,8 @@ Todo.defaultProps = {
 }
 
 Todo.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  id: PropTypes.number
 }
 
 
