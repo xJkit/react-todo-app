@@ -27886,7 +27886,9 @@
 	    var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
 	
 	    _this.state = {
-	      todos: []
+	      todos: [],
+	      searchTerm: '',
+	      showComplete: false
 	    };
 	    return _this;
 	  }
@@ -27953,6 +27955,10 @@
 	    value: function () {
 	      function handleSearchTermBy(term, showComplete) {
 	        console.log('search for: ' + String(term) + ', completed: ' + String(showComplete));
+	        this.setState({
+	          searchTerm: term,
+	          showComplete: showComplete
+	        });
 	      }
 	
 	      return handleSearchTermBy;
@@ -28007,7 +28013,7 @@
 	        evt.preventDefault();
 	        var handleSearchTermBy = this.props.handleSearchTermBy;
 	
-	        var term = this.refs.searchTerm.value;
+	        var term = this.refs.searchTerm.value.trim().toLowerCase();
 	        var showComplete = this.refs.showComplete.checked;
 	
 	        handleSearchTermBy(term, showComplete);

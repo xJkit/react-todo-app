@@ -8,7 +8,7 @@ class Search extends Component {
   onSearchTermBy(evt) {
     evt.preventDefault()
     const { handleSearchTermBy } = this.props
-    const term = this.refs.searchTerm.value
+    const term = this.refs.searchTerm.value.trim().toLowerCase()
     const showComplete = this.refs.showComplete.checked
 
     handleSearchTermBy(term, showComplete)

@@ -9,6 +9,25 @@ describe('<Search />', () => {
     expect(Search).toExist()
   })
 
+  it('should call onSearchTermBy with onChange input search', () => {
+    const spy = expect.createSpy()
+    const wrapper = mount(<Search handleSearchTermBy={spy} />)
+    const searchInput = wrapper.find('input.search-bar')
+    searchInput.simulate('change')
+    expect(spy).toHaveBeenCalled()
+  })
+
+  it('should call onSearchTermBy with proper input values', () => {
+    const spy = expect.createSpy()
+    const wrapper = mount(<Search handleSearchTermBy={spy} />)
+    let searchInput = wrapper.find('input.search-bar')
+    const searchCheckbox = wrapper.find('input.search-show-complete')
+    searchInput.get(0).value="      HeLLo    "
+    searchCheckbox.get(0).checked = true
+    searchInput.simulate('change')
+    expect(spy).toHaveBeenCalledWith("hello", true)
+  })
+
   describe('rendering check', () => {
     it('should render search bar', () => {
       const wrapper = shallow(<Search />)

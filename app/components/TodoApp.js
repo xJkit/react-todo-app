@@ -9,7 +9,9 @@ class TodoApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      todos: []
+      todos: [],
+      searchTerm: '',
+      showComplete: false
     }
   }
 
@@ -41,6 +43,10 @@ class TodoApp extends Component {
 
   handleSearchTermBy(term, showComplete) {
     console.log(`search for: ${term}, completed: ${showComplete}`)
+    this.setState({
+      searchTerm: term,
+      showComplete: showComplete
+    })
   }
 }
 
