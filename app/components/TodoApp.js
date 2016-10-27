@@ -9,28 +9,7 @@ class TodoApp extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      todos: [
-        {
-          id: 1,
-          title: "Walk the dog"
-        },
-        {
-          id: 2,
-          title: "See the movies"
-        },
-        {
-          id: 3,
-          title: "Go to hells"
-        },
-        {
-          id: 4,
-          title: "Develop with React"
-        },
-        {
-          id: 5,
-          title: "Suck the Angular"
-        }
-      ]
+      todos: []
     }
   }
 
