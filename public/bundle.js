@@ -61,7 +61,7 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	__webpack_require__(/*! style!css!sass!applicationStyles */ 242);
+	__webpack_require__(/*! style!css!sass!applicationStyles */ 266);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -21973,7 +21973,7 @@
 	
 	var _TodoApp2 = _interopRequireDefault(_TodoApp);
 	
-	var _NotFound = __webpack_require__(/*! NotFound */ 241);
+	var _NotFound = __webpack_require__(/*! NotFound */ 265);
 	
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 	
@@ -27855,21 +27855,25 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _nodeUuid = __webpack_require__(/*! node-uuid */ 246);
+	var _nodeUuid = __webpack_require__(/*! node-uuid */ 237);
 	
 	var _nodeUuid2 = _interopRequireDefault(_nodeUuid);
 	
-	var _Search = __webpack_require__(/*! Search */ 237);
+	var _Search = __webpack_require__(/*! Search */ 260);
 	
 	var _Search2 = _interopRequireDefault(_Search);
 	
-	var _TodoList = __webpack_require__(/*! TodoList */ 238);
+	var _TodoList = __webpack_require__(/*! TodoList */ 261);
 	
 	var _TodoList2 = _interopRequireDefault(_TodoList);
 	
-	var _AddTodo = __webpack_require__(/*! AddTodo */ 240);
+	var _AddTodo = __webpack_require__(/*! AddTodo */ 263);
 	
 	var _AddTodo2 = _interopRequireDefault(_AddTodo);
+	
+	var _TodoAPI = __webpack_require__(/*! TodoAPI */ 264);
+	
+	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -27879,6 +27883,8 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	//components
+	
+	//APIs
 	
 	
 	var TodoApp = function (_Component) {
@@ -27890,7 +27896,7 @@
 	    var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
 	
 	    _this.state = {
-	      todos: [],
+	      todos: _TodoAPI2['default'].getTodos("todos"),
 	      searchTerm: '',
 	      showComplete: false
 	    };
@@ -27898,6 +27904,15 @@
 	  }
 	
 	  _createClass(TodoApp, [{
+	    key: 'componentDidUpdate',
+	    value: function () {
+	      function componentDidUpdate(prevProps, prevState) {
+	        _TodoAPI2['default'].setTodos(this.state.todos);
+	      }
+	
+	      return componentDidUpdate;
+	    }()
+	  }, {
 	    key: 'render',
 	    value: function () {
 	      function render() {
@@ -28007,690 +28022,6 @@
 
 /***/ },
 /* 237 */
-/*!**********************************!*\
-  !*** ./app/components/Search.js ***!
-  \**********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Search = function (_Component) {
-	  _inherits(Search, _Component);
-	
-	  function Search(props) {
-	    _classCallCheck(this, Search);
-	
-	    return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
-	  }
-	
-	  _createClass(Search, [{
-	    key: "onSearchTermBy",
-	    value: function () {
-	      function onSearchTermBy(evt) {
-	        evt.preventDefault();
-	        var handleSearchTermBy = this.props.handleSearchTermBy;
-	
-	        var term = this.refs.searchTerm.value.trim().toLowerCase();
-	        var showComplete = this.refs.showComplete.checked;
-	
-	        handleSearchTermBy(term, showComplete);
-	      }
-	
-	      return onSearchTermBy;
-	    }()
-	  }, {
-	    key: "render",
-	    value: function () {
-	      function render() {
-	        var _this2 = this;
-	
-	        return _react2["default"].createElement(
-	          "div",
-	          { className: "search" },
-	          _react2["default"].createElement("input", {
-	            className: "search-bar",
-	            type: "text",
-	            placeholder: "\u641C\u5C0B Todos",
-	            ref: "searchTerm",
-	            onChange: function () {
-	              function onChange(evt) {
-	                return _this2.onSearchTermBy(evt);
-	              }
-	
-	              return onChange;
-	            }()
-	          }),
-	          _react2["default"].createElement(
-	            "form",
-	            { className: "check-row" },
-	            _react2["default"].createElement("input", { className: "search-show-complete", id: "show-complete", type: "checkbox", name: "show-complete", ref: "showComplete" }),
-	            _react2["default"].createElement(
-	              "label",
-	              { htmlFor: "show-complete" },
-	              "\u986F\u793A\u5DF2\u5B8C\u6210"
-	            )
-	          )
-	        );
-	      }
-	
-	      return render;
-	    }()
-	  }]);
-	
-	  return Search;
-	}(_react.Component);
-	
-	Search.propTypes = {
-	  handleSearchTermBy: _react.PropTypes.func
-	};
-	
-	exports["default"] = Search;
-
-/***/ },
-/* 238 */
-/*!************************************!*\
-  !*** ./app/components/TodoList.js ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	//components
-	
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Todo = __webpack_require__(/*! Todo */ 239);
-	
-	var _Todo2 = _interopRequireDefault(_Todo);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	var TodoList = function TodoList(props) {
-	  var _handleCompleteChecked = props.handleCompleteChecked;
-	
-	  return _react2['default'].createElement(
-	    'div',
-	    { className: 'todo-list' },
-	    props.todos.map(function (todo) {
-	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: todo.id }, todo, { handleCompleteChecked: function () {
-	          function handleCompleteChecked(checked, id) {
-	            return _handleCompleteChecked(checked, id);
-	          }
-	
-	          return handleCompleteChecked;
-	        }() }));
-	    })
-	  );
-	};
-	
-	TodoList.propTypes = {
-	  todos: _react.PropTypes.arrayOf(_react.PropTypes.object)
-	};
-	
-	exports['default'] = TodoList;
-
-/***/ },
-/* 239 */
-/*!********************************!*\
-  !*** ./app/components/Todo.js ***!
-  \********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	var Todo = function Todo(props) {
-	  var title = props.title,
-	      date = props.date,
-	      time = props.time,
-	      id = props.id,
-	      handleCompleteChecked = props.handleCompleteChecked;
-	
-	
-	  var onCompleteChecked = function onCompleteChecked(evt) {
-	    var checked = evt.target.checked;
-	    var id = evt.target.id;
-	    handleCompleteChecked(checked, id);
-	  };
-	
-	  return _react2["default"].createElement(
-	    "form",
-	    { className: "todo" },
-	    _react2["default"].createElement("input", {
-	      id: id,
-	      type: "checkbox",
-	      onChange: function () {
-	        function onChange(evt) {
-	          return onCompleteChecked(evt);
-	        }
-	
-	        return onChange;
-	      }()
-	    }),
-	    _react2["default"].createElement(
-	      "label",
-	      { htmlFor: id, className: "info" },
-	      _react2["default"].createElement(
-	        "div",
-	        { className: "title" },
-	        title
-	      ),
-	      _react2["default"].createElement(
-	        "div",
-	        { className: "stamp" },
-	        "Created ",
-	        date,
-	        " @ ",
-	        time
-	      )
-	    )
-	  );
-	};
-	
-	Todo.defaultProps = {
-	  title: "John Appleseed",
-	  date: "Mar 21st",
-	  time: "9:04 am"
-	};
-	
-	Todo.propTypes = {
-	  title: _react.PropTypes.string,
-	  id: _react.PropTypes.string,
-	  date: _react.PropTypes.string,
-	  time: _react.PropTypes.string,
-	  handleCompleteChecked: _react.PropTypes.func
-	};
-	
-	exports["default"] = Todo;
-
-/***/ },
-/* 240 */
-/*!***********************************!*\
-  !*** ./app/components/AddTodo.js ***!
-  \***********************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	var AddTodo = function AddTodo(props) {
-	
-	  var onAddTodo = function onAddTodo(evt) {
-	    evt.preventDefault();
-	    var handleAddTodo = props.handleAddTodo;
-	
-	    var newTodoItem = evt.target.elements[0].value;
-	    if (newTodoItem.length > 0) {
-	      evt.target.elements[0].value = "";
-	      handleAddTodo(newTodoItem);
-	    } else {
-	      evt.target.elements[0].focus();
-	    }
-	  };
-	
-	  return _react2["default"].createElement(
-	    "form",
-	    { className: "add-todo", onSubmit: function () {
-	        function onSubmit(evt) {
-	          return onAddTodo(evt);
-	        }
-	
-	        return onSubmit;
-	      }() },
-	    _react2["default"].createElement("input", { type: "text", placeholder: "\u4F60\u60F3\u505A\u4E9B\u4EC0\u9EBC\uFF1F" }),
-	    _react2["default"].createElement(
-	      "button",
-	      { className: "button expanded primary" },
-	      "\u65B0\u589E Todo "
-	    )
-	  );
-	};
-	
-	AddTodo.propTypes = {
-	  handleAddTodo: _react.PropTypes.func
-	};
-	
-	exports["default"] = AddTodo;
-
-/***/ },
-/* 241 */
-/*!************************************!*\
-  !*** ./app/components/NotFound.js ***!
-  \************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-	
-	var NotFound = function NotFound() {
-	  return _react2["default"].createElement(
-	    "div",
-	    { className: "not-found" },
-	    _react2["default"].createElement(
-	      "h1",
-	      null,
-	      "Not Found 404. ker ker..."
-	    )
-	  );
-	};
-	
-	exports["default"] = NotFound;
-
-/***/ },
-/* 242 */
-/*!*****************************************************************************!*\
-  !*** ./~/style-loader!./~/css-loader!./~/sass-loader!./app/styles/app.scss ***!
-  \*****************************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./app.scss */ 243);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 245)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 243 */
-/*!************************************************************!*\
-  !*** ./~/css-loader!./~/sass-loader!./app/styles/app.scss ***!
-  \************************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 244)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "/* ==========================================================================\n   Normalize.scss settings\n   ========================================================================== */\n/**\n * Includes legacy browser support IE6/7\n *\n * Set to false if you want to drop support for IE6 and IE7\n */\n/* Base\n   ========================================================================== */\n/**\n * 1. Set default font family to sans-serif.\n * 2. Prevent iOS and IE text size adjust after device orientation change,\n *    without disabling user zoom.\n * 3. Corrects text resizing oddly in IE 6/7 when body `font-size` is set using\n *  `em` units.\n */\nhtml {\n  font-family: sans-serif;\n  /* 1 */\n  -ms-text-size-adjust: 100%;\n  /* 2 */\n  -webkit-text-size-adjust: 100%;\n  /* 2 */ }\n\n/**\n * Remove default margin.\n */\nbody {\n  margin: 0; }\n\n/* HTML5 display definitions\n   ========================================================================== */\n/**\n * Correct `block` display not defined for any HTML5 element in IE 8/9.\n * Correct `block` display not defined for `details` or `summary` in IE 10/11\n * and Firefox.\n * Correct `block` display not defined for `main` in IE 11.\n */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmain,\nmenu,\nnav,\nsection,\nsummary {\n  display: block; }\n\n/**\n * 1. Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.\n * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.\n */\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block;\n  /* 1 */\n  vertical-align: baseline;\n  /* 2 */ }\n\n/**\n * Prevents modern browsers from displaying `audio` without controls.\n * Remove excess height in iOS 5 devices.\n */\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\n/**\n * Address `[hidden]` styling not present in IE 8/9/10.\n * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.\n */\n[hidden],\ntemplate {\n  display: none; }\n\n/* Links\n   ========================================================================== */\n/**\n * Remove the gray background color from active links in IE 10.\n */\na {\n  background-color: transparent; }\n\n/**\n * Improve readability of focused elements when they are also in an\n * active/hover state.\n */\na:active, a:hover {\n  outline: 0; }\n\n/* Text-level semantics\n   ========================================================================== */\n/**\n * Address styling not present in IE 8/9/10/11, Safari, and Chrome.\n */\nabbr[title] {\n  border-bottom: 1px dotted; }\n\n/**\n * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.\n */\nb,\nstrong {\n  font-weight: bold; }\n\n/**\n * Address styling not present in Safari and Chrome.\n */\ndfn {\n  font-style: italic; }\n\n/**\n * Address variable `h1` font-size and margin within `section` and `article`\n * contexts in Firefox 4+, Safari, and Chrome.\n */\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0; }\n\n/**\n * Addresses styling not present in IE 8/9.\n */\nmark {\n  background: #ff0;\n  color: #000; }\n\n/**\n * Address inconsistent and variable font size in all browsers.\n */\nsmall {\n  font-size: 80%; }\n\n/**\n * Prevent `sub` and `sup` affecting `line-height` in all browsers.\n */\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline; }\n\nsup {\n  top: -0.5em; }\n\nsub {\n  bottom: -0.25em; }\n\n/* Embedded content\n   ========================================================================== */\n/**\n * 1. Remove border when inside `a` element in IE 8/9/10.\n * 2. Improves image quality when scaled in IE 7.\n */\nimg {\n  border: 0; }\n\n/**\n * Correct overflow not hidden in IE 9/10/11.\n */\nsvg:not(:root) {\n  overflow: hidden; }\n\n/* Grouping content\n   ========================================================================== */\n/**\n * Address margin not present in IE 8/9 and Safari.\n */\nfigure {\n  margin: 1em 40px; }\n\n/**\n * Address differences between Firefox and other browsers.\n */\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\n/**\n * Contain overflow in all browsers.\n */\npre {\n  overflow: auto; }\n\n/**\n * Address odd `em`-unit font size rendering in all browsers.\n * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.\n */\ncode,\nkbd,\npre,\nsamp {\n  font-family: monospace, monospace;\n  font-size: 1em; }\n\n/* Forms\n   ========================================================================== */\n/**\n * Known limitation: by default, Chrome and Safari on OS X allow very limited\n * styling of `select`, unless a `border` property is set.\n */\n/**\n * 1. Correct color not being inherited.\n *  Known issue: affects color of disabled elements.\n * 2. Correct font properties not being inherited.\n * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.\n * 4. Improves appearance and consistency in all browsers.\n */\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  color: inherit;\n  /* 1 */\n  font: inherit;\n  /* 2 */\n  margin: 0;\n  /* 3 */ }\n\n/**\n * Address `overflow` set to `hidden` in IE 8/9/10/11.\n */\nbutton {\n  overflow: visible; }\n\n/**\n * Address inconsistent `text-transform` inheritance for `button` and `select`.\n * All other form control elements do not inherit `text-transform` values.\n * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.\n * Correct `select` style inheritance in Firefox.\n */\nbutton,\nselect {\n  text-transform: none; }\n\n/**\n * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`\n *  and `video` controls.\n * 2. Correct inability to style clickable `input` types in iOS.\n * 3. Improve usability and consistency of cursor style between image-type\n *  `input` and others.\n * 4. Removes inner spacing in IE 7 without affecting normal text inputs.\n *  Known issue: inner spacing remains in IE 6.\n */\nbutton,\nhtml input[type=\"button\"],\ninput[type=\"reset\"],\ninput[type=\"submit\"] {\n  -webkit-appearance: button;\n  /* 2 */\n  cursor: pointer;\n  /* 3 */ }\n\n/**\n * Re-set default cursor for disabled elements.\n */\nbutton[disabled],\nhtml input[disabled] {\n  cursor: default; }\n\n/**\n * Remove inner padding and border in Firefox 4+.\n */\nbutton::-moz-focus-inner,\ninput::-moz-focus-inner {\n  border: 0;\n  padding: 0; }\n\n/**\n * Address Firefox 4+ setting `line-height` on `input` using `!important` in\n * the UA stylesheet.\n */\ninput {\n  line-height: normal; }\n\n/**\n * 1. Address box sizing set to `content-box` in IE 8/9/10.\n * 2. Remove excess padding in IE 8/9/10.\n *  Known issue: excess padding remains in IE 6.\n */\ninput[type=\"checkbox\"],\ninput[type=\"radio\"] {\n  box-sizing: border-box;\n  /* 1 */\n  padding: 0;\n  /* 2 */ }\n\n/**\n * Fix the cursor style for Chrome's increment/decrement buttons. For certain\n * `font-size` values of the `input`, it causes the cursor style of the\n * decrement button to change from `default` to `text`.\n */\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto; }\n\n/**\n * 1. Address `appearance` set to `searchfield` in Safari and Chrome.\n * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.\n */\ninput[type=\"search\"] {\n  -webkit-appearance: textfield;\n  /* 1 */\n  box-sizing: content-box;\n  /* 2 */ }\n\n/**\n * Remove inner padding and search cancel button in Safari and Chrome on OS X.\n * Safari (but not Chrome) clips the cancel button when the search input has\n * padding (and `textfield` appearance).\n */\ninput[type=\"search\"]::-webkit-search-cancel-button,\ninput[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n/**\n * Define consistent border, margin, and padding.\n */\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em; }\n\n/**\n * 1. Correct `color` not being inherited in IE 8/9/10/11.\n * 2. Remove padding so people aren't caught out if they zero out fieldsets.\n * 3. Corrects text not wrapping in Firefox 3.\n * 4. Corrects alignment displayed oddly in IE 6/7.\n */\nlegend {\n  border: 0;\n  /* 1 */\n  padding: 0;\n  /* 2 */ }\n\n/**\n * Remove default vertical scrollbar in IE 8/9/10/11.\n */\ntextarea {\n  overflow: auto; }\n\n/**\n * Don't inherit the `font-weight` (applied by a rule above).\n * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.\n */\noptgroup {\n  font-weight: bold; }\n\n/* Tables\n   ========================================================================== */\n/**\n * Remove most spacing between table cells.\n */\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\ntd,\nth {\n  padding: 0; }\n\n.todo-app {\n  text-align: center; }\n  .todo-app .container {\n    display: inline-block;\n    width: 400px;\n    height: auto;\n    text-align: left;\n    padding: 1rem;\n    background-color: #d4d4d4;\n    border-radius: 5px; }\n\n.search {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  padding: 1rem 0; }\n  .search input {\n    line-height: 2; }\n  .search .check-row {\n    display: flex;\n    align-items: center;\n    padding: 0.5rem 0; }\n    .search .check-row label {\n      padding: 0.5rem; }\n\n.add-todo {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 0; }\n  .add-todo button {\n    background-color: #1aabe4;\n    margin: 0.5rem 0;\n    color: white;\n    border-radius: 5px;\n    border: 0;\n    line-height: 2; }\n  .add-todo input {\n    line-height: 2; }\n\n.todo {\n  display: flex;\n  align-items: center; }\n  .todo .title, .todo .stamp {\n    padding-left: 0.5rem;\n    line-height: 1.6; }\n  .todo .stamp {\n    color: #929292; }\n  .todo .info {\n    padding: 0.3rem 0; }\n", ""]);
-	
-	// exports
-
-
-/***/ },
-/* 244 */
-/*!**************************************!*\
-  !*** ./~/css-loader/lib/css-base.js ***!
-  \**************************************/
-/***/ function(module, exports) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	// css base code, injected by the css-loader
-	module.exports = function() {
-		var list = [];
-	
-		// return the list of modules as css string
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-	
-		// import a list of modules into the list
-		list.i = function(modules, mediaQuery) {
-			if(typeof modules === "string")
-				modules = [[null, modules, ""]];
-			var alreadyImportedModules = {};
-			for(var i = 0; i < this.length; i++) {
-				var id = this[i][0];
-				if(typeof id === "number")
-					alreadyImportedModules[id] = true;
-			}
-			for(i = 0; i < modules.length; i++) {
-				var item = modules[i];
-				// skip already imported module
-				// this implementation is not 100% perfect for weird media query combinations
-				//  when a module is imported multiple times with different media queries.
-				//  I hope this will never occur (Hey this way we have smaller bundles)
-				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-					if(mediaQuery && !item[2]) {
-						item[2] = mediaQuery;
-					} else if(mediaQuery) {
-						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-					}
-					list.push(item);
-				}
-			}
-		};
-		return list;
-	};
-
-
-/***/ },
-/* 245 */
-/*!*************************************!*\
-  !*** ./~/style-loader/addStyles.js ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	var stylesInDom = {},
-		memoize = function(fn) {
-			var memo;
-			return function () {
-				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-				return memo;
-			};
-		},
-		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-		}),
-		getHeadElement = memoize(function () {
-			return document.head || document.getElementsByTagName("head")[0];
-		}),
-		singletonElement = null,
-		singletonCounter = 0,
-		styleElementsInsertedAtTop = [];
-	
-	module.exports = function(list, options) {
-		if(true) {
-			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-		}
-	
-		options = options || {};
-		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-		// tags it will allow on a page
-		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-	
-		// By default, add <style> tags to the bottom of <head>.
-		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-	
-		var styles = listToStyles(list);
-		addStylesToDom(styles, options);
-	
-		return function update(newList) {
-			var mayRemove = [];
-			for(var i = 0; i < styles.length; i++) {
-				var item = styles[i];
-				var domStyle = stylesInDom[item.id];
-				domStyle.refs--;
-				mayRemove.push(domStyle);
-			}
-			if(newList) {
-				var newStyles = listToStyles(newList);
-				addStylesToDom(newStyles, options);
-			}
-			for(var i = 0; i < mayRemove.length; i++) {
-				var domStyle = mayRemove[i];
-				if(domStyle.refs === 0) {
-					for(var j = 0; j < domStyle.parts.length; j++)
-						domStyle.parts[j]();
-					delete stylesInDom[domStyle.id];
-				}
-			}
-		};
-	}
-	
-	function addStylesToDom(styles, options) {
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			if(domStyle) {
-				domStyle.refs++;
-				for(var j = 0; j < domStyle.parts.length; j++) {
-					domStyle.parts[j](item.parts[j]);
-				}
-				for(; j < item.parts.length; j++) {
-					domStyle.parts.push(addStyle(item.parts[j], options));
-				}
-			} else {
-				var parts = [];
-				for(var j = 0; j < item.parts.length; j++) {
-					parts.push(addStyle(item.parts[j], options));
-				}
-				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-			}
-		}
-	}
-	
-	function listToStyles(list) {
-		var styles = [];
-		var newStyles = {};
-		for(var i = 0; i < list.length; i++) {
-			var item = list[i];
-			var id = item[0];
-			var css = item[1];
-			var media = item[2];
-			var sourceMap = item[3];
-			var part = {css: css, media: media, sourceMap: sourceMap};
-			if(!newStyles[id])
-				styles.push(newStyles[id] = {id: id, parts: [part]});
-			else
-				newStyles[id].parts.push(part);
-		}
-		return styles;
-	}
-	
-	function insertStyleElement(options, styleElement) {
-		var head = getHeadElement();
-		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-		if (options.insertAt === "top") {
-			if(!lastStyleElementInsertedAtTop) {
-				head.insertBefore(styleElement, head.firstChild);
-			} else if(lastStyleElementInsertedAtTop.nextSibling) {
-				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-			} else {
-				head.appendChild(styleElement);
-			}
-			styleElementsInsertedAtTop.push(styleElement);
-		} else if (options.insertAt === "bottom") {
-			head.appendChild(styleElement);
-		} else {
-			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-		}
-	}
-	
-	function removeStyleElement(styleElement) {
-		styleElement.parentNode.removeChild(styleElement);
-		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-		if(idx >= 0) {
-			styleElementsInsertedAtTop.splice(idx, 1);
-		}
-	}
-	
-	function createStyleElement(options) {
-		var styleElement = document.createElement("style");
-		styleElement.type = "text/css";
-		insertStyleElement(options, styleElement);
-		return styleElement;
-	}
-	
-	function createLinkElement(options) {
-		var linkElement = document.createElement("link");
-		linkElement.rel = "stylesheet";
-		insertStyleElement(options, linkElement);
-		return linkElement;
-	}
-	
-	function addStyle(obj, options) {
-		var styleElement, update, remove;
-	
-		if (options.singleton) {
-			var styleIndex = singletonCounter++;
-			styleElement = singletonElement || (singletonElement = createStyleElement(options));
-			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-		} else if(obj.sourceMap &&
-			typeof URL === "function" &&
-			typeof URL.createObjectURL === "function" &&
-			typeof URL.revokeObjectURL === "function" &&
-			typeof Blob === "function" &&
-			typeof btoa === "function") {
-			styleElement = createLinkElement(options);
-			update = updateLink.bind(null, styleElement);
-			remove = function() {
-				removeStyleElement(styleElement);
-				if(styleElement.href)
-					URL.revokeObjectURL(styleElement.href);
-			};
-		} else {
-			styleElement = createStyleElement(options);
-			update = applyToTag.bind(null, styleElement);
-			remove = function() {
-				removeStyleElement(styleElement);
-			};
-		}
-	
-		update(obj);
-	
-		return function updateStyle(newObj) {
-			if(newObj) {
-				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-					return;
-				update(obj = newObj);
-			} else {
-				remove();
-			}
-		};
-	}
-	
-	var replaceText = (function () {
-		var textStore = [];
-	
-		return function (index, replacement) {
-			textStore[index] = replacement;
-			return textStore.filter(Boolean).join('\n');
-		};
-	})();
-	
-	function applyToSingletonTag(styleElement, index, remove, obj) {
-		var css = remove ? "" : obj.css;
-	
-		if (styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = replaceText(index, css);
-		} else {
-			var cssNode = document.createTextNode(css);
-			var childNodes = styleElement.childNodes;
-			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-			if (childNodes.length) {
-				styleElement.insertBefore(cssNode, childNodes[index]);
-			} else {
-				styleElement.appendChild(cssNode);
-			}
-		}
-	}
-	
-	function applyToTag(styleElement, obj) {
-		var css = obj.css;
-		var media = obj.media;
-	
-		if(media) {
-			styleElement.setAttribute("media", media)
-		}
-	
-		if(styleElement.styleSheet) {
-			styleElement.styleSheet.cssText = css;
-		} else {
-			while(styleElement.firstChild) {
-				styleElement.removeChild(styleElement.firstChild);
-			}
-			styleElement.appendChild(document.createTextNode(css));
-		}
-	}
-	
-	function updateLink(linkElement, obj) {
-		var css = obj.css;
-		var sourceMap = obj.sourceMap;
-	
-		if(sourceMap) {
-			// http://stackoverflow.com/a/26603875
-			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-		}
-	
-		var blob = new Blob([css], { type: "text/css" });
-	
-		var oldSrc = linkElement.href;
-	
-		linkElement.href = URL.createObjectURL(blob);
-	
-		if(oldSrc)
-			URL.revokeObjectURL(oldSrc);
-	}
-
-
-/***/ },
-/* 246 */
 /*!*****************************!*\
   !*** ./~/node-uuid/uuid.js ***!
   \*****************************/
@@ -28754,7 +28085,7 @@
 	    // Moderately fast, high quality
 	    if (true) {
 	      try {
-	        var _rb = __webpack_require__(/*! crypto */ 251).randomBytes;
+	        var _rb = __webpack_require__(/*! crypto */ 242).randomBytes;
 	        _nodeRNG = _rng = _rb && function() {return _rb(16);};
 	        _rng();
 	      } catch(e) {}
@@ -28969,10 +28300,10 @@
 	  }
 	})('undefined' !== typeof window ? window : null);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
 
 /***/ },
-/* 247 */
+/* 238 */
 /*!***************************!*\
   !*** ./~/buffer/index.js ***!
   \***************************/
@@ -28988,9 +28319,9 @@
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(/*! base64-js */ 248)
-	var ieee754 = __webpack_require__(/*! ieee754 */ 249)
-	var isArray = __webpack_require__(/*! isarray */ 250)
+	var base64 = __webpack_require__(/*! base64-js */ 239)
+	var ieee754 = __webpack_require__(/*! ieee754 */ 240)
+	var isArray = __webpack_require__(/*! isarray */ 241)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -30768,10 +30099,10 @@
 	  return val !== val // eslint-disable-line no-self-compare
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 248 */
+/* 239 */
 /*!******************************!*\
   !*** ./~/base64-js/index.js ***!
   \******************************/
@@ -30894,7 +30225,7 @@
 
 
 /***/ },
-/* 249 */
+/* 240 */
 /*!****************************!*\
   !*** ./~/ieee754/index.js ***!
   \****************************/
@@ -30987,7 +30318,7 @@
 
 
 /***/ },
-/* 250 */
+/* 241 */
 /*!****************************!*\
   !*** ./~/isarray/index.js ***!
   \****************************/
@@ -31001,13 +30332,13 @@
 
 
 /***/ },
-/* 251 */
+/* 242 */
 /*!**************************************!*\
   !*** ./~/crypto-browserify/index.js ***!
   \**************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(/*! ./rng */ 252)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var rng = __webpack_require__(/*! ./rng */ 243)
 	
 	function error () {
 	  var m = [].slice.call(arguments).join(' ')
@@ -31018,9 +30349,9 @@
 	    ].join('\n'))
 	}
 	
-	exports.createHash = __webpack_require__(/*! ./create-hash */ 254)
+	exports.createHash = __webpack_require__(/*! ./create-hash */ 245)
 	
-	exports.createHmac = __webpack_require__(/*! ./create-hmac */ 266)
+	exports.createHmac = __webpack_require__(/*! ./create-hmac */ 257)
 	
 	exports.randomBytes = function(size, callback) {
 	  if (callback && callback.call) {
@@ -31041,7 +30372,7 @@
 	  return ['sha1', 'sha256', 'sha512', 'md5', 'rmd160']
 	}
 	
-	var p = __webpack_require__(/*! ./pbkdf2 */ 267)(exports)
+	var p = __webpack_require__(/*! ./pbkdf2 */ 258)(exports)
 	exports.pbkdf2 = p.pbkdf2
 	exports.pbkdf2Sync = p.pbkdf2Sync
 	
@@ -31061,10 +30392,10 @@
 	  }
 	})
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
 
 /***/ },
-/* 252 */
+/* 243 */
 /*!************************************!*\
   !*** ./~/crypto-browserify/rng.js ***!
   \************************************/
@@ -31073,7 +30404,7 @@
 	/* WEBPACK VAR INJECTION */(function(global, Buffer) {(function() {
 	  var g = ('undefined' === typeof window ? global : window) || {}
 	  _crypto = (
-	    g.crypto || g.msCrypto || __webpack_require__(/*! crypto */ 253)
+	    g.crypto || g.msCrypto || __webpack_require__(/*! crypto */ 244)
 	  )
 	  module.exports = function(size) {
 	    // Modern Browsers
@@ -31097,10 +30428,10 @@
 	  }
 	}())
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
 
 /***/ },
-/* 253 */
+/* 244 */
 /*!************************!*\
   !*** crypto (ignored) ***!
   \************************/
@@ -31109,16 +30440,16 @@
 	/* (ignored) */
 
 /***/ },
-/* 254 */
+/* 245 */
 /*!********************************************!*\
   !*** ./~/crypto-browserify/create-hash.js ***!
   \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! sha.js */ 255)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! sha.js */ 246)
 	
-	var md5 = toConstructor(__webpack_require__(/*! ./md5 */ 263))
-	var rmd160 = toConstructor(__webpack_require__(/*! ripemd160 */ 265))
+	var md5 = toConstructor(__webpack_require__(/*! ./md5 */ 254))
+	var rmd160 = toConstructor(__webpack_require__(/*! ripemd160 */ 256))
 	
 	function toConstructor (fn) {
 	  return function () {
@@ -31146,10 +30477,10 @@
 	  return createHash(alg)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
 
 /***/ },
-/* 255 */
+/* 246 */
 /*!***************************!*\
   !*** ./~/sha.js/index.js ***!
   \***************************/
@@ -31161,16 +30492,16 @@
 	  return new Alg()
 	}
 	
-	var Buffer = __webpack_require__(/*! buffer */ 247).Buffer
-	var Hash   = __webpack_require__(/*! ./hash */ 256)(Buffer)
+	var Buffer = __webpack_require__(/*! buffer */ 238).Buffer
+	var Hash   = __webpack_require__(/*! ./hash */ 247)(Buffer)
 	
-	exports.sha1 = __webpack_require__(/*! ./sha1 */ 257)(Buffer, Hash)
-	exports.sha256 = __webpack_require__(/*! ./sha256 */ 261)(Buffer, Hash)
-	exports.sha512 = __webpack_require__(/*! ./sha512 */ 262)(Buffer, Hash)
+	exports.sha1 = __webpack_require__(/*! ./sha1 */ 248)(Buffer, Hash)
+	exports.sha256 = __webpack_require__(/*! ./sha256 */ 252)(Buffer, Hash)
+	exports.sha512 = __webpack_require__(/*! ./sha512 */ 253)(Buffer, Hash)
 
 
 /***/ },
-/* 256 */
+/* 247 */
 /*!**************************!*\
   !*** ./~/sha.js/hash.js ***!
   \**************************/
@@ -31256,7 +30587,7 @@
 
 
 /***/ },
-/* 257 */
+/* 248 */
 /*!**************************!*\
   !*** ./~/sha.js/sha1.js ***!
   \**************************/
@@ -31271,7 +30602,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for details.
 	 */
 	
-	var inherits = __webpack_require__(/*! util */ 258).inherits
+	var inherits = __webpack_require__(/*! util */ 249).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -31403,7 +30734,7 @@
 
 
 /***/ },
-/* 258 */
+/* 249 */
 /*!************************!*\
   !*** ./~/util/util.js ***!
   \************************/
@@ -31934,7 +31265,7 @@
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 259);
+	exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ 250);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -31978,7 +31309,7 @@
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(/*! inherits */ 260);
+	exports.inherits = __webpack_require__(/*! inherits */ 251);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -31999,7 +31330,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(/*! ./~/process/browser.js */ 3)))
 
 /***/ },
-/* 259 */
+/* 250 */
 /*!*******************************************!*\
   !*** ./~/util/support/isBufferBrowser.js ***!
   \*******************************************/
@@ -32013,7 +31344,7 @@
 	}
 
 /***/ },
-/* 260 */
+/* 251 */
 /*!****************************************!*\
   !*** ./~/inherits/inherits_browser.js ***!
   \****************************************/
@@ -32045,7 +31376,7 @@
 
 
 /***/ },
-/* 261 */
+/* 252 */
 /*!****************************!*\
   !*** ./~/sha.js/sha256.js ***!
   \****************************/
@@ -32060,7 +31391,7 @@
 	 *
 	 */
 	
-	var inherits = __webpack_require__(/*! util */ 258).inherits
+	var inherits = __webpack_require__(/*! util */ 249).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	
@@ -32201,13 +31532,13 @@
 
 
 /***/ },
-/* 262 */
+/* 253 */
 /*!****************************!*\
   !*** ./~/sha.js/sha512.js ***!
   \****************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var inherits = __webpack_require__(/*! util */ 258).inherits
+	var inherits = __webpack_require__(/*! util */ 249).inherits
 	
 	module.exports = function (Buffer, Hash) {
 	  var K = [
@@ -32454,7 +31785,7 @@
 
 
 /***/ },
-/* 263 */
+/* 254 */
 /*!************************************!*\
   !*** ./~/crypto-browserify/md5.js ***!
   \************************************/
@@ -32469,7 +31800,7 @@
 	 * See http://pajhome.org.uk/crypt/md5 for more info.
 	 */
 	
-	var helpers = __webpack_require__(/*! ./helpers */ 264);
+	var helpers = __webpack_require__(/*! ./helpers */ 255);
 	
 	/*
 	 * Calculate the MD5 of an array of little-endian words, and a bit length
@@ -32618,7 +31949,7 @@
 
 
 /***/ },
-/* 264 */
+/* 255 */
 /*!****************************************!*\
   !*** ./~/crypto-browserify/helpers.js ***!
   \****************************************/
@@ -32659,10 +31990,10 @@
 	
 	module.exports = { hash: hash };
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
 
 /***/ },
-/* 265 */
+/* 256 */
 /*!**************************************!*\
   !*** ./~/ripemd160/lib/ripemd160.js ***!
   \**************************************/
@@ -32874,16 +32205,16 @@
 	
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
 
 /***/ },
-/* 266 */
+/* 257 */
 /*!********************************************!*\
   !*** ./~/crypto-browserify/create-hmac.js ***!
   \********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! ./create-hash */ 254)
+	/* WEBPACK VAR INJECTION */(function(Buffer) {var createHash = __webpack_require__(/*! ./create-hash */ 245)
 	
 	var zeroBuffer = new Buffer(128)
 	zeroBuffer.fill(0)
@@ -32927,16 +32258,16 @@
 	}
 	
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
 
 /***/ },
-/* 267 */
+/* 258 */
 /*!***************************************!*\
   !*** ./~/crypto-browserify/pbkdf2.js ***!
   \***************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	var pbkdf2Export = __webpack_require__(/*! pbkdf2-compat/pbkdf2 */ 268)
+	var pbkdf2Export = __webpack_require__(/*! pbkdf2-compat/pbkdf2 */ 259)
 	
 	module.exports = function (crypto, exports) {
 	  exports = exports || {}
@@ -32951,7 +32282,7 @@
 
 
 /***/ },
-/* 268 */
+/* 259 */
 /*!***********************************!*\
   !*** ./~/pbkdf2-compat/pbkdf2.js ***!
   \***********************************/
@@ -33042,7 +32373,734 @@
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 247).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 238).Buffer))
+
+/***/ },
+/* 260 */
+/*!**********************************!*\
+  !*** ./app/components/Search.js ***!
+  \**********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Search = function (_Component) {
+	  _inherits(Search, _Component);
+	
+	  function Search(props) {
+	    _classCallCheck(this, Search);
+	
+	    return _possibleConstructorReturn(this, (Search.__proto__ || Object.getPrototypeOf(Search)).call(this, props));
+	  }
+	
+	  _createClass(Search, [{
+	    key: "onSearchTermBy",
+	    value: function () {
+	      function onSearchTermBy(evt) {
+	        evt.preventDefault();
+	        var handleSearchTermBy = this.props.handleSearchTermBy;
+	
+	        var term = this.refs.searchTerm.value.trim().toLowerCase();
+	        var showComplete = this.refs.showComplete.checked;
+	
+	        handleSearchTermBy(term, showComplete);
+	      }
+	
+	      return onSearchTermBy;
+	    }()
+	  }, {
+	    key: "render",
+	    value: function () {
+	      function render() {
+	        var _this2 = this;
+	
+	        return _react2["default"].createElement(
+	          "div",
+	          { className: "search" },
+	          _react2["default"].createElement("input", {
+	            className: "search-bar",
+	            type: "text",
+	            placeholder: "\u641C\u5C0B Todos",
+	            ref: "searchTerm",
+	            onChange: function () {
+	              function onChange(evt) {
+	                return _this2.onSearchTermBy(evt);
+	              }
+	
+	              return onChange;
+	            }()
+	          }),
+	          _react2["default"].createElement(
+	            "form",
+	            { className: "check-row" },
+	            _react2["default"].createElement("input", { className: "search-show-complete", id: "show-complete", type: "checkbox", name: "show-complete", ref: "showComplete" }),
+	            _react2["default"].createElement(
+	              "label",
+	              { htmlFor: "show-complete" },
+	              "\u986F\u793A\u5DF2\u5B8C\u6210"
+	            )
+	          )
+	        );
+	      }
+	
+	      return render;
+	    }()
+	  }]);
+	
+	  return Search;
+	}(_react.Component);
+	
+	Search.propTypes = {
+	  handleSearchTermBy: _react.PropTypes.func
+	};
+	
+	exports["default"] = Search;
+
+/***/ },
+/* 261 */
+/*!************************************!*\
+  !*** ./app/components/TodoList.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	//components
+	
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Todo = __webpack_require__(/*! Todo */ 262);
+	
+	var _Todo2 = _interopRequireDefault(_Todo);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var TodoList = function TodoList(props) {
+	  var _handleCompleteChecked = props.handleCompleteChecked;
+	
+	  return _react2['default'].createElement(
+	    'div',
+	    { className: 'todo-list' },
+	    props.todos.map(function (todo) {
+	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: todo.id }, todo, { handleCompleteChecked: function () {
+	          function handleCompleteChecked(checked, id) {
+	            return _handleCompleteChecked(checked, id);
+	          }
+	
+	          return handleCompleteChecked;
+	        }() }));
+	    })
+	  );
+	};
+	
+	TodoList.propTypes = {
+	  todos: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	};
+	
+	exports['default'] = TodoList;
+
+/***/ },
+/* 262 */
+/*!********************************!*\
+  !*** ./app/components/Todo.js ***!
+  \********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	var Todo = function Todo(props) {
+	  var title = props.title,
+	      date = props.date,
+	      time = props.time,
+	      id = props.id,
+	      handleCompleteChecked = props.handleCompleteChecked;
+	
+	
+	  var onCompleteChecked = function onCompleteChecked(evt) {
+	    var checked = evt.target.checked;
+	    var id = evt.target.id;
+	    handleCompleteChecked(checked, id);
+	  };
+	
+	  return _react2["default"].createElement(
+	    "form",
+	    { className: "todo" },
+	    _react2["default"].createElement("input", {
+	      id: id,
+	      type: "checkbox",
+	      onChange: function () {
+	        function onChange(evt) {
+	          return onCompleteChecked(evt);
+	        }
+	
+	        return onChange;
+	      }()
+	    }),
+	    _react2["default"].createElement(
+	      "label",
+	      { htmlFor: id, className: "info" },
+	      _react2["default"].createElement(
+	        "div",
+	        { className: "title" },
+	        title
+	      ),
+	      _react2["default"].createElement(
+	        "div",
+	        { className: "stamp" },
+	        "Created ",
+	        date,
+	        " @ ",
+	        time
+	      )
+	    )
+	  );
+	};
+	
+	Todo.defaultProps = {
+	  title: "John Appleseed",
+	  date: "Mar 21st",
+	  time: "9:04 am"
+	};
+	
+	Todo.propTypes = {
+	  title: _react.PropTypes.string,
+	  id: _react.PropTypes.string,
+	  date: _react.PropTypes.string,
+	  time: _react.PropTypes.string,
+	  handleCompleteChecked: _react.PropTypes.func
+	};
+	
+	exports["default"] = Todo;
+
+/***/ },
+/* 263 */
+/*!***********************************!*\
+  !*** ./app/components/AddTodo.js ***!
+  \***********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	var AddTodo = function AddTodo(props) {
+	
+	  var onAddTodo = function onAddTodo(evt) {
+	    evt.preventDefault();
+	    var handleAddTodo = props.handleAddTodo;
+	
+	    var newTodoItem = evt.target.elements[0].value;
+	    if (newTodoItem.length > 0) {
+	      evt.target.elements[0].value = "";
+	      handleAddTodo(newTodoItem);
+	    } else {
+	      evt.target.elements[0].focus();
+	    }
+	  };
+	
+	  return _react2["default"].createElement(
+	    "form",
+	    { className: "add-todo", onSubmit: function () {
+	        function onSubmit(evt) {
+	          return onAddTodo(evt);
+	        }
+	
+	        return onSubmit;
+	      }() },
+	    _react2["default"].createElement("input", { type: "text", placeholder: "\u4F60\u60F3\u505A\u4E9B\u4EC0\u9EBC\uFF1F" }),
+	    _react2["default"].createElement(
+	      "button",
+	      { className: "button expanded primary" },
+	      "\u65B0\u589E Todo "
+	    )
+	  );
+	};
+	
+	AddTodo.propTypes = {
+	  handleAddTodo: _react.PropTypes.func
+	};
+	
+	exports["default"] = AddTodo;
+
+/***/ },
+/* 264 */
+/*!****************************!*\
+  !*** ./app/api/TodoAPI.js ***!
+  \****************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var TodoAPI = {
+	  setTodos: function () {
+	    function setTodos(todos) {
+	      //todos is an array of objects
+	      if (Array.isArray(todos)) {
+	        var strTodos = JSON.stringify(todos);
+	        localStorage.setItem("todos", strTodos);
+	      }
+	    }
+	
+	    return setTodos;
+	  }(),
+	  getTodos: function () {
+	    function getTodos(key) {
+	      var strTodos = localStorage.getItem(key);
+	      var todos = [];
+	      try {
+	        todos = JSON.parse(strTodos);
+	      } catch (err) {
+	        console.log(String(err) + ": some problem in parsing todos");
+	      }
+	
+	      return Array.isArray(todos) ? todos : [];
+	    }
+	
+	    return getTodos;
+	  }()
+	};
+	
+	exports["default"] = TodoAPI;
+
+/***/ },
+/* 265 */
+/*!************************************!*\
+  !*** ./app/components/NotFound.js ***!
+  \************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	var NotFound = function NotFound() {
+	  return _react2["default"].createElement(
+	    "div",
+	    { className: "not-found" },
+	    _react2["default"].createElement(
+	      "h1",
+	      null,
+	      "Not Found 404. ker ker..."
+	    )
+	  );
+	};
+	
+	exports["default"] = NotFound;
+
+/***/ },
+/* 266 */
+/*!*****************************************************************************!*\
+  !*** ./~/style-loader!./~/css-loader!./~/sass-loader!./app/styles/app.scss ***!
+  \*****************************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(/*! !./../../~/css-loader!./../../~/sass-loader!./app.scss */ 267);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(/*! ./../../~/style-loader/addStyles.js */ 269)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/sass-loader/index.js!./app.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 267 */
+/*!************************************************************!*\
+  !*** ./~/css-loader!./~/sass-loader!./app/styles/app.scss ***!
+  \************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(/*! ./../../~/css-loader/lib/css-base.js */ 268)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "/* ==========================================================================\n   Normalize.scss settings\n   ========================================================================== */\n/**\n * Includes legacy browser support IE6/7\n *\n * Set to false if you want to drop support for IE6 and IE7\n */\n/* Base\n   ========================================================================== */\n/**\n * 1. Set default font family to sans-serif.\n * 2. Prevent iOS and IE text size adjust after device orientation change,\n *    without disabling user zoom.\n * 3. Corrects text resizing oddly in IE 6/7 when body `font-size` is set using\n *  `em` units.\n */\nhtml {\n  font-family: sans-serif;\n  /* 1 */\n  -ms-text-size-adjust: 100%;\n  /* 2 */\n  -webkit-text-size-adjust: 100%;\n  /* 2 */ }\n\n/**\n * Remove default margin.\n */\nbody {\n  margin: 0; }\n\n/* HTML5 display definitions\n   ========================================================================== */\n/**\n * Correct `block` display not defined for any HTML5 element in IE 8/9.\n * Correct `block` display not defined for `details` or `summary` in IE 10/11\n * and Firefox.\n * Correct `block` display not defined for `main` in IE 11.\n */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmain,\nmenu,\nnav,\nsection,\nsummary {\n  display: block; }\n\n/**\n * 1. Correct `inline-block` display not defined in IE 6/7/8/9 and Firefox 3.\n * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.\n */\naudio,\ncanvas,\nprogress,\nvideo {\n  display: inline-block;\n  /* 1 */\n  vertical-align: baseline;\n  /* 2 */ }\n\n/**\n * Prevents modern browsers from displaying `audio` without controls.\n * Remove excess height in iOS 5 devices.\n */\naudio:not([controls]) {\n  display: none;\n  height: 0; }\n\n/**\n * Address `[hidden]` styling not present in IE 8/9/10.\n * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.\n */\n[hidden],\ntemplate {\n  display: none; }\n\n/* Links\n   ========================================================================== */\n/**\n * Remove the gray background color from active links in IE 10.\n */\na {\n  background-color: transparent; }\n\n/**\n * Improve readability of focused elements when they are also in an\n * active/hover state.\n */\na:active, a:hover {\n  outline: 0; }\n\n/* Text-level semantics\n   ========================================================================== */\n/**\n * Address styling not present in IE 8/9/10/11, Safari, and Chrome.\n */\nabbr[title] {\n  border-bottom: 1px dotted; }\n\n/**\n * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.\n */\nb,\nstrong {\n  font-weight: bold; }\n\n/**\n * Address styling not present in Safari and Chrome.\n */\ndfn {\n  font-style: italic; }\n\n/**\n * Address variable `h1` font-size and margin within `section` and `article`\n * contexts in Firefox 4+, Safari, and Chrome.\n */\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0; }\n\n/**\n * Addresses styling not present in IE 8/9.\n */\nmark {\n  background: #ff0;\n  color: #000; }\n\n/**\n * Address inconsistent and variable font size in all browsers.\n */\nsmall {\n  font-size: 80%; }\n\n/**\n * Prevent `sub` and `sup` affecting `line-height` in all browsers.\n */\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline; }\n\nsup {\n  top: -0.5em; }\n\nsub {\n  bottom: -0.25em; }\n\n/* Embedded content\n   ========================================================================== */\n/**\n * 1. Remove border when inside `a` element in IE 8/9/10.\n * 2. Improves image quality when scaled in IE 7.\n */\nimg {\n  border: 0; }\n\n/**\n * Correct overflow not hidden in IE 9/10/11.\n */\nsvg:not(:root) {\n  overflow: hidden; }\n\n/* Grouping content\n   ========================================================================== */\n/**\n * Address margin not present in IE 8/9 and Safari.\n */\nfigure {\n  margin: 1em 40px; }\n\n/**\n * Address differences between Firefox and other browsers.\n */\nhr {\n  box-sizing: content-box;\n  height: 0; }\n\n/**\n * Contain overflow in all browsers.\n */\npre {\n  overflow: auto; }\n\n/**\n * Address odd `em`-unit font size rendering in all browsers.\n * Correct font family set oddly in IE 6, Safari 4/5, and Chrome.\n */\ncode,\nkbd,\npre,\nsamp {\n  font-family: monospace, monospace;\n  font-size: 1em; }\n\n/* Forms\n   ========================================================================== */\n/**\n * Known limitation: by default, Chrome and Safari on OS X allow very limited\n * styling of `select`, unless a `border` property is set.\n */\n/**\n * 1. Correct color not being inherited.\n *  Known issue: affects color of disabled elements.\n * 2. Correct font properties not being inherited.\n * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.\n * 4. Improves appearance and consistency in all browsers.\n */\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  color: inherit;\n  /* 1 */\n  font: inherit;\n  /* 2 */\n  margin: 0;\n  /* 3 */ }\n\n/**\n * Address `overflow` set to `hidden` in IE 8/9/10/11.\n */\nbutton {\n  overflow: visible; }\n\n/**\n * Address inconsistent `text-transform` inheritance for `button` and `select`.\n * All other form control elements do not inherit `text-transform` values.\n * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.\n * Correct `select` style inheritance in Firefox.\n */\nbutton,\nselect {\n  text-transform: none; }\n\n/**\n * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`\n *  and `video` controls.\n * 2. Correct inability to style clickable `input` types in iOS.\n * 3. Improve usability and consistency of cursor style between image-type\n *  `input` and others.\n * 4. Removes inner spacing in IE 7 without affecting normal text inputs.\n *  Known issue: inner spacing remains in IE 6.\n */\nbutton,\nhtml input[type=\"button\"],\ninput[type=\"reset\"],\ninput[type=\"submit\"] {\n  -webkit-appearance: button;\n  /* 2 */\n  cursor: pointer;\n  /* 3 */ }\n\n/**\n * Re-set default cursor for disabled elements.\n */\nbutton[disabled],\nhtml input[disabled] {\n  cursor: default; }\n\n/**\n * Remove inner padding and border in Firefox 4+.\n */\nbutton::-moz-focus-inner,\ninput::-moz-focus-inner {\n  border: 0;\n  padding: 0; }\n\n/**\n * Address Firefox 4+ setting `line-height` on `input` using `!important` in\n * the UA stylesheet.\n */\ninput {\n  line-height: normal; }\n\n/**\n * 1. Address box sizing set to `content-box` in IE 8/9/10.\n * 2. Remove excess padding in IE 8/9/10.\n *  Known issue: excess padding remains in IE 6.\n */\ninput[type=\"checkbox\"],\ninput[type=\"radio\"] {\n  box-sizing: border-box;\n  /* 1 */\n  padding: 0;\n  /* 2 */ }\n\n/**\n * Fix the cursor style for Chrome's increment/decrement buttons. For certain\n * `font-size` values of the `input`, it causes the cursor style of the\n * decrement button to change from `default` to `text`.\n */\ninput[type=\"number\"]::-webkit-inner-spin-button,\ninput[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto; }\n\n/**\n * 1. Address `appearance` set to `searchfield` in Safari and Chrome.\n * 2. Address `box-sizing` set to `border-box` in Safari and Chrome.\n */\ninput[type=\"search\"] {\n  -webkit-appearance: textfield;\n  /* 1 */\n  box-sizing: content-box;\n  /* 2 */ }\n\n/**\n * Remove inner padding and search cancel button in Safari and Chrome on OS X.\n * Safari (but not Chrome) clips the cancel button when the search input has\n * padding (and `textfield` appearance).\n */\ninput[type=\"search\"]::-webkit-search-cancel-button,\ninput[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none; }\n\n/**\n * Define consistent border, margin, and padding.\n */\nfieldset {\n  border: 1px solid #c0c0c0;\n  margin: 0 2px;\n  padding: 0.35em 0.625em 0.75em; }\n\n/**\n * 1. Correct `color` not being inherited in IE 8/9/10/11.\n * 2. Remove padding so people aren't caught out if they zero out fieldsets.\n * 3. Corrects text not wrapping in Firefox 3.\n * 4. Corrects alignment displayed oddly in IE 6/7.\n */\nlegend {\n  border: 0;\n  /* 1 */\n  padding: 0;\n  /* 2 */ }\n\n/**\n * Remove default vertical scrollbar in IE 8/9/10/11.\n */\ntextarea {\n  overflow: auto; }\n\n/**\n * Don't inherit the `font-weight` (applied by a rule above).\n * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.\n */\noptgroup {\n  font-weight: bold; }\n\n/* Tables\n   ========================================================================== */\n/**\n * Remove most spacing between table cells.\n */\ntable {\n  border-collapse: collapse;\n  border-spacing: 0; }\n\ntd,\nth {\n  padding: 0; }\n\n.todo-app {\n  text-align: center; }\n  .todo-app .container {\n    display: inline-block;\n    width: 400px;\n    height: auto;\n    text-align: left;\n    padding: 1rem;\n    background-color: #d4d4d4;\n    border-radius: 5px; }\n\n.search {\n  display: flex;\n  flex-direction: column;\n  flex-wrap: wrap;\n  padding: 1rem 0; }\n  .search input {\n    line-height: 2; }\n  .search .check-row {\n    display: flex;\n    align-items: center;\n    padding: 0.5rem 0; }\n    .search .check-row label {\n      padding: 0.5rem; }\n\n.add-todo {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 0; }\n  .add-todo button {\n    background-color: #1aabe4;\n    margin: 0.5rem 0;\n    color: white;\n    border-radius: 5px;\n    border: 0;\n    line-height: 2; }\n  .add-todo input {\n    line-height: 2; }\n\n.todo {\n  display: flex;\n  align-items: center; }\n  .todo .title, .todo .stamp {\n    padding-left: 0.5rem;\n    line-height: 1.6; }\n  .todo .stamp {\n    color: #929292; }\n  .todo .info {\n    padding: 0.3rem 0; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 268 */
+/*!**************************************!*\
+  !*** ./~/css-loader/lib/css-base.js ***!
+  \**************************************/
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+	
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+	
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 269 */
+/*!*************************************!*\
+  !*** ./~/style-loader/addStyles.js ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+	
+	module.exports = function(list, options) {
+		if(true) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+	
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+	
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+	
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+	
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+	
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+	
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+	
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+	
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+	
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+	
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+	
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+	
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+	
+		update(obj);
+	
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+	
+	var replaceText = (function () {
+		var textStore = [];
+	
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+	
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+	
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+	
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+	
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+	
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+	
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+	
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+	
+		var blob = new Blob([css], { type: "text/css" });
+	
+		var oldSrc = linkElement.href;
+	
+		linkElement.href = URL.createObjectURL(blob);
+	
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
 
 /***/ }
 /******/ ]);
