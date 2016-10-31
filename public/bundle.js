@@ -27918,6 +27918,12 @@
 	      function render() {
 	        var _this2 = this;
 	
+	        var _state = this.state,
+	            todos = _state.todos,
+	            searchTerm = _state.searchTerm,
+	            showComplete = _state.showComplete;
+	
+	        var filteredTodos = _TodoAPI2['default'].filteredTodos(todos, searchTerm, showComplete);
 	        return _react2['default'].createElement(
 	          'div',
 	          { className: 'todo-app' },
@@ -27929,16 +27935,25 @@
 	          _react2['default'].createElement(
 	            'div',
 	            { className: 'container' },
-	            _react2['default'].createElement(_Search2['default'], { handleSearchTermBy: function () {
+	            _react2['default'].createElement(_Search2['default'], {
+	              handleSearchTermBy: function () {
 	                function handleSearchTermBy(term, showComplete) {
 	                  return _this2.handleSearchTermBy(term, showComplete);
 	                }
 	
 	                return handleSearchTermBy;
-	              }() }),
+	              }(),
+	              handleShowComplete: function () {
+	                function handleShowComplete(showComplete) {
+	                  return _this2.handleShowComplete(showComplete);
+	                }
+	
+	                return handleShowComplete;
+	              }()
+	            }),
 	            _react2['default'].createElement('hr', null),
 	            _react2['default'].createElement(_TodoList2['default'], {
-	              todos: this.state.todos,
+	              todos: filteredTodos,
 	              handleCompleteChecked: function () {
 	                function handleCompleteChecked(checked, id) {
 	                  return _this2.handleCompleteChecked(checked, id);
@@ -27981,15 +27996,24 @@
 	  }, {
 	    key: 'handleSearchTermBy',
 	    value: function () {
-	      function handleSearchTermBy(term, showComplete) {
-	        console.log('search for: ' + String(term) + ', completed: ' + String(showComplete));
+	      function handleSearchTermBy(term) {
 	        this.setState({
-	          searchTerm: term,
-	          showComplete: showComplete
+	          searchTerm: term
 	        });
 	      }
 	
 	      return handleSearchTermBy;
+	    }()
+	  }, {
+	    key: 'handleShowComplete',
+	    value: function () {
+	      function handleShowComplete(showComplete) {
+	        this.setState({
+	          showComplete: showComplete
+	        });
+	      }
+	
+	      return handleShowComplete;
 	    }()
 	  }, {
 	    key: 'handleCompleteChecked',
@@ -32414,17 +32438,25 @@
 	  _createClass(Search, [{
 	    key: "onSearchTermBy",
 	    value: function () {
-	      function onSearchTermBy(evt) {
-	        evt.preventDefault();
+	      function onSearchTermBy() {
 	        var handleSearchTermBy = this.props.handleSearchTermBy;
 	
 	        var term = this.refs.searchTerm.value.trim().toLowerCase();
-	        var showComplete = this.refs.showComplete.checked;
-	
-	        handleSearchTermBy(term, showComplete);
+	        handleSearchTermBy(term);
 	      }
 	
 	      return onSearchTermBy;
+	    }()
+	  }, {
+	    key: "handleShowComplete",
+	    value: function () {
+	      function handleShowComplete(evt) {
+	        var handleShowComplete = this.props.handleShowComplete;
+	
+	        handleShowComplete(this.refs.showComplete.checked);
+	      }
+	
+	      return handleShowComplete;
 	    }()
 	  }, {
 	    key: "render",
@@ -32441,8 +32473,8 @@
 	            placeholder: "\u641C\u5C0B Todos",
 	            ref: "searchTerm",
 	            onChange: function () {
-	              function onChange(evt) {
-	                return _this2.onSearchTermBy(evt);
+	              function onChange() {
+	                return _this2.onSearchTermBy();
 	              }
 	
 	              return onChange;
@@ -32451,7 +32483,13 @@
 	          _react2["default"].createElement(
 	            "form",
 	            { className: "check-row" },
-	            _react2["default"].createElement("input", { className: "search-show-complete", id: "show-complete", type: "checkbox", name: "show-complete", ref: "showComplete" }),
+	            _react2["default"].createElement("input", { className: "search-show-complete", id: "show-complete", type: "checkbox", name: "show-complete", ref: "showComplete", onChange: function () {
+	                function onChange() {
+	                  return _this2.handleShowComplete();
+	                }
+	
+	                return onChange;
+	              }() }),
 	            _react2["default"].createElement(
 	              "label",
 	              { htmlFor: "show-complete" },
@@ -32469,7 +32507,8 @@
 	}(_react.Component);
 	
 	Search.propTypes = {
-	  handleSearchTermBy: _react.PropTypes.func
+	  handleSearchTermBy: _react.PropTypes.func,
+	  handleShowComplete: _react.PropTypes.func
 	};
 	
 	exports["default"] = Search;
@@ -32549,6 +32588,7 @@
 	      date = props.date,
 	      time = props.time,
 	      id = props.id,
+	      completed = props.completed,
 	      handleCompleteChecked = props.handleCompleteChecked;
 	
 	
@@ -32570,7 +32610,8 @@
 	        }
 	
 	        return onChange;
-	      }()
+	      }(),
+	      checked: completed
 	    }),
 	    _react2["default"].createElement(
 	      "label",
@@ -32601,6 +32642,7 @@
 	Todo.propTypes = {
 	  title: _react.PropTypes.string,
 	  id: _react.PropTypes.string,
+	  completed: _react.PropTypes.bool,
 	  date: _react.PropTypes.string,
 	  time: _react.PropTypes.string,
 	  handleCompleteChecked: _react.PropTypes.func
@@ -32704,6 +32746,36 @@
 	    }
 	
 	    return getTodos;
+	  }(),
+	  filteredTodos: function () {
+	    function filteredTodos(todos, searchTerm, showComplete) {
+	      var filteredTodos = todos;
+	      // filter with showComplete
+	      filteredTodos = filteredTodos.filter(function (todo) {
+	        return !todo.completed || showComplete;
+	      });
+	
+	      //filter with searchTerm
+	      filteredTodos = filteredTodos.filter(function (todo) {
+	        var searchText = searchTerm.toLowerCase();
+	        return searchText.length == 0 || todo.title.toLowerCase().indexOf(searchText) > -1;
+	      });
+	
+	      // sort todos with non-complete first
+	      filteredTodos.sort(function (a, b) {
+	        if (!a.completed && b.completed) {
+	          return -1;
+	        } else if (a.completed && !b.completed) {
+	          return 1;
+	        } else {
+	          return 0;
+	        }
+	      });
+	
+	      return filteredTodos;
+	    }
+	
+	    return filteredTodos;
 	  }()
 	};
 	

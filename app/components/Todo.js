@@ -1,8 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 
 const Todo = (props) => {
-  const {title, date, time, id, handleCompleteChecked} = props
-
+  const {title, date, time, id, completed, handleCompleteChecked} = props
 
   const onCompleteChecked = (evt) => {
     const checked = evt.target.checked
@@ -16,6 +15,7 @@ const Todo = (props) => {
         id={id}
         type="checkbox"
         onChange={(evt) => onCompleteChecked(evt)}
+        checked={completed}
         />
       <label htmlFor={id} className="info">
         <div className="title">{title}</div>
@@ -34,6 +34,7 @@ Todo.defaultProps = {
 Todo.propTypes = {
   title: PropTypes.string,
   id: PropTypes.string,
+  completed: PropTypes.bool,
   date: PropTypes.string,
   time: PropTypes.string,
   handleCompleteChecked: PropTypes.func

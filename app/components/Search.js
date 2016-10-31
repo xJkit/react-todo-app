@@ -5,13 +5,15 @@ class Search extends Component {
     super(props)
   }
 
-  onSearchTermBy(evt) {
-    evt.preventDefault()
+  onSearchTermBy() {
     const { handleSearchTermBy } = this.props
     const term = this.refs.searchTerm.value.trim().toLowerCase()
-    const showComplete = this.refs.showComplete.checked
+    handleSearchTermBy(term)
+  }
 
-    handleSearchTermBy(term, showComplete)
+  handleShowComplete(evt) {
+    const { handleShowComplete } = this.props
+    handleShowComplete(this.refs.showComplete.checked)
   }
 
   render() {
@@ -22,10 +24,10 @@ class Search extends Component {
           type="text"
           placeholder="搜尋 Todos"
           ref="searchTerm"
-          onChange={(evt) => this.onSearchTermBy(evt)}
+          onChange={() => this.onSearchTermBy()}
           />
         <form className="check-row">
-            <input className="search-show-complete" id="show-complete" type="checkbox" name="show-complete" ref="showComplete"/>
+            <input className="search-show-complete" id="show-complete" type="checkbox" name="show-complete" ref="showComplete" onChange={() => this.handleShowComplete()}/>
             <label htmlFor="show-complete" >顯示已完成</label>
         </form>
       </div>
@@ -34,7 +36,8 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  handleSearchTermBy: PropTypes.func
+  handleSearchTermBy: PropTypes.func,
+  handleShowComplete: PropTypes.func
 }
 
 export default Search

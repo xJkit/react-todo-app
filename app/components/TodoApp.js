@@ -23,14 +23,19 @@ class TodoApp extends Component {
   }
 
   render() {
+    const {todos, searchTerm, showComplete} = this.state
+    const filteredTodos = TodoAPI.filteredTodos(todos, searchTerm, showComplete)
     return(
       <div className="todo-app">
         <h1>Todo App</h1>
         <div className="container">
-          <Search handleSearchTermBy={(term, showComplete) => this.handleSearchTermBy(term, showComplete)}/>
+          <Search
+            handleSearchTermBy={(term, showComplete) => this.handleSearchTermBy(term, showComplete)}
+            handleShowComplete={(showComplete) => this.handleShowComplete(showComplete)}
+            />
           <hr/>
           <TodoList
-            todos={this.state.todos}
+            todos={filteredTodos}
             handleCompleteChecked={(checked, id) => this.handleCompleteChecked(checked, id)}
             />
           <AddTodo handleAddTodo={(todo) => this.handleAddTodo(todo)}/>
@@ -51,10 +56,14 @@ class TodoApp extends Component {
     })
   }
 
-  handleSearchTermBy(term, showComplete) {
-    console.log(`search for: ${term}, completed: ${showComplete}`)
+  handleSearchTermBy(term) {
     this.setState({
-      searchTerm: term,
+      searchTerm: term
+    })
+  }
+
+  handleShowComplete(showComplete) {
+    this.setState({
       showComplete: showComplete
     })
   }
