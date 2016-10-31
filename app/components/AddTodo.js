@@ -1,14 +1,16 @@
 import React, {PropTypes} from 'react'
+import moment from 'moment'
 
 const AddTodo = (props) => {
 
   const onAddTodo = (evt) => {
     evt.preventDefault()
     const {handleAddTodo} = props
-    const newTodoItem = evt.target.elements[0].value
-    if (newTodoItem.length > 0){
+    const newTodoTitle = evt.target.elements[0].value
+    const currentStamp = moment().unix()
+    if (newTodoTitle.length > 0){
       evt.target.elements[0].value = ""
-      handleAddTodo(newTodoItem)
+      handleAddTodo(newTodoTitle, currentStamp)
     } else {
       evt.target.elements[0].focus()
     }

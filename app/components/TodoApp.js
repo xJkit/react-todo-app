@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import uuid from 'node-uuid'
+import moment from 'moment'
 //components
 import Search from 'Search'
 import TodoList from 'TodoList'
 import AddTodo from 'AddTodo'
 //APIs
 import TodoAPI from 'TodoAPI'
-
 
 class TodoApp extends Component {
   constructor(props) {
@@ -38,17 +38,18 @@ class TodoApp extends Component {
             todos={filteredTodos}
             handleCompleteChecked={(checked, id) => this.handleCompleteChecked(checked, id)}
             />
-          <AddTodo handleAddTodo={(todo) => this.handleAddTodo(todo)}/>
+          <AddTodo handleAddTodo={(title, stamp) => this.handleAddTodo(title, stamp)}/>
         </div>
       </div>
     )
   }
 
-  handleAddTodo(title) {
+  handleAddTodo(title, stamp) {
     const {todos} = this.state
     const newTodos = todos.concat({
       id: uuid.v1(),
       title: title,
+      stamp: stamp,
       completed: false
     })
     this.setState({
@@ -83,9 +84,6 @@ class TodoApp extends Component {
       todos: newTodos
     })
   }
-
-
-
 }
 
 export default TodoApp
