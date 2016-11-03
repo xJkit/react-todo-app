@@ -14,10 +14,10 @@ describe('<AddTodo />', () => {
     const wrapper = mount(<AddTodo handleAddTodo={spy}/>)
     wrapper.find('input').get(0).value = "123"
     wrapper.find('form').simulate('submit')
-    expect(spy).toHaveBeenCalledWith('123')
+    expect(spy).toHaveBeenCalled()
     expect(wrapper.find('input').get(0).value).toBe('')
   })
-  
+
   it('should not add todo item with invalid input', () => {
     const spy = expect.createSpy()
     const wrapper = mount(<AddTodo handleAddTodo={spy} />)
