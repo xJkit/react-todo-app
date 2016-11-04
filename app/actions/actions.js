@@ -6,11 +6,10 @@ export const searchTermBy = (term) => {
   }
 }
 
-export const addTodo = (title, stamp) => {
+export const addTodo = (title) => {
   return {
     type: 'ADD_TODO',
-    title,
-    stamp
+    title
   }
 }
 
@@ -23,6 +22,8 @@ export const showComplete = (showComplete) => {
 
 export const completeChecked = (checked, id) => {
   return {
-    type: 'COMPLETE_CHECKED'
+    type: 'COMPLETE_CHECKED',
+    checked,
+    id
   }
 }

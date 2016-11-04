@@ -19,10 +19,9 @@ describe('actions', () => {
   it('should generate add todo action', () => {
     const action = {
       type: 'ADD_TODO',
-      title: 'thing to do',
-      stamp: '2016-10-10'
+      title: 'things to do',
     }
-    const res = actions.addTodo(action.title, action.stamp)
+    const res = actions.addTodo(action.title)
     expect(res).toEqual(action)
   })
 
@@ -37,10 +36,12 @@ describe('actions', () => {
 
   it('should generate complete checked action', () => {
     const action = {
-      type: 'COMPLETE_CHECKED'
+      type: 'COMPLETE_CHECKED',
+      id: 'abc',
+      checked: true
     }
 
-    const res = actions.completeChecked()
+    const res = actions.completeChecked(action.checked, action.id)
     expect(res).toEqual(action)
   })
 

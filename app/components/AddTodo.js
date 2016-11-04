@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react'
-import moment from 'moment'
 
 const AddTodo = (props) => {
 
@@ -7,10 +6,9 @@ const AddTodo = (props) => {
     evt.preventDefault()
     const {handleAddTodo} = props
     const newTodoTitle = evt.target.elements[0].value
-    const currentStamp = moment().unix()
     if (newTodoTitle.length > 0){
       evt.target.elements[0].value = ""
-      handleAddTodo(newTodoTitle, currentStamp)
+      handleAddTodo(newTodoTitle)
     } else {
       evt.target.elements[0].focus()
     }

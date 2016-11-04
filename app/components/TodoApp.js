@@ -44,12 +44,12 @@ class TodoApp extends Component {
     )
   }
 
-  handleAddTodo(title, stamp) {
+  handleAddTodo(title) {
     const {todos} = this.state
     const newTodos = todos.concat({
       id: uuid.v1(),
       title: title,
-      stamp: stamp,
+      stamp: moment().unix(),
       completed: false
     })
     this.setState({
@@ -71,15 +71,13 @@ class TodoApp extends Component {
 
   handleCompleteChecked(checked, id) {
     const {todos} = this.state
-    const newTodos = todos.map( (todo) => {
+
+    const newTodos = todos.map( todo => {
       if(todo.id == id){
         todo.completed = checked
-        return todo
-      } else {
-        return todo
       }
+      return todo
     })
-
     this.setState({
       todos: newTodos
     })
