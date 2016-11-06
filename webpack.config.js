@@ -22,9 +22,10 @@ module.exports = {
     ],
     alias: {
       applicationStyles: 'app/styles/app.scss',
+      routes: path.join('app', 'routes.js'),
       actions: 'app/actions/actions.js',
       reducers:'app/reducers/reducers.js',
-      routes: path.join('app', 'routes.js')
+      configureStore: 'app/store/configureStore.js'
     },
     extensions: ['', '.js', '.jsx']
   },
