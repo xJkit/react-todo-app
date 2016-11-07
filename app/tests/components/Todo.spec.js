@@ -2,7 +2,7 @@ import React from 'react'
 import {shallow, mount} from 'enzyme'
 import expect from 'expect'
 
-import Todo from 'Todo'
+import { Todo } from 'Todo'
 
 describe('<Todo />', () => {
   it('should exist', () => {
@@ -24,6 +24,5 @@ describe('<Todo />', () => {
       checked: true,
       id: "abc"
     })
-
   })
 })

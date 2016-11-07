@@ -75,14 +75,14 @@
 	
 	var _configureStore = __webpack_require__(/*! configureStore */ 405);
 	
-	var configureStore = _interopRequireWildcard(_configureStore);
+	var _configureStore2 = _interopRequireDefault(_configureStore);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	// Load actions & store from redux
-	var store = configureStore.config();
+	var store = (0, _configureStore2['default'])();
 	
 	// Load custom css: app.scss
 	
@@ -49020,6 +49020,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.Todo = undefined;
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
@@ -49039,7 +49040,7 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var Todo = function Todo(props) {
+	var Todo = exports.Todo = function Todo(props) {
 	  var title = props.title,
 	      stamp = props.stamp,
 	      id = props.id,
@@ -49646,7 +49647,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.config = undefined;
 	
 	var _redux = __webpack_require__(/*! redux */ 179);
 	
@@ -49656,7 +49656,7 @@
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 	
-	var config = exports.config = function config() {
+	var configureStore = function configureStore() {
 	  var rootReducer = (0, _redux.combineReducers)(Object.assign({}, reducers));
 	
 	  var store = (0, _redux.createStore)(rootReducer, (0, _redux.compose)(window.devToolsExtension ? window.devToolsExtension() : function (f) {
@@ -49665,6 +49665,8 @@
 	
 	  return store;
 	};
+	
+	exports['default'] = configureStore;
 
 /***/ },
 /* 406 */

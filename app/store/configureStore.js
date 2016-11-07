@@ -3,7 +3,7 @@ import * as reducers from '../reducers/reducers.js'
 
 
 
-export const config = () => {
+const configureStore = () => {
   const rootReducer = combineReducers({
     ...reducers
   })
@@ -14,3 +14,5 @@ export const config = () => {
 
   return store
 }
+
+export default configureStore

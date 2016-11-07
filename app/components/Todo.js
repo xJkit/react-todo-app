@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import * as actions from 'actions'
 import moment from 'moment'
 
-const Todo = (props) => {
+export const Todo = (props) => {
   const {title, stamp, id, completed, dispatch} = props
 
   const onCompleteChecked = (evt) => {

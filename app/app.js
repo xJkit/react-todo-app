@@ -11,8 +11,8 @@ import 'style!css!sass!applicationStyles'
 
 // Load actions & store from redux
 import * as actions from 'actions'
-import * as configureStore from 'configureStore'
-const store = configureStore.config()
+import configureStore from 'configureStore'
+const store = configureStore()
 
 store.dispatch(actions.addTodo('A new todo from dispatche action'))
 
