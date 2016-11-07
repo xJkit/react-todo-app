@@ -13,7 +13,7 @@ describe('Reducers', () => {
         type: 'SEARCH_TERM_BY',
         term: '123'
       }
-      const res = reducers.searchTermBy('', action)
+      const res = reducers.term('', action)
       expect(res).toEqual(action.term)
     })
   })
@@ -35,7 +35,7 @@ describe('Reducers', () => {
         type: 'ADD_TODO',
         title: 'things to do!'
       }
-      const res = reducers.todoReducer([], action)
+      const res = reducers.todos([], action)
       expect(res.length).toBe(1)
       expect(res[0].title).toEqual(action.title)
     })
@@ -60,7 +60,7 @@ describe('Reducers', () => {
         id: 'id-2',
         checked: true
       }
-      const res = reducers.todoReducer(todos, action)
+      const res = reducers.todos(todos, action)
       expect(res[1].completed).toBe(true)
     })
 

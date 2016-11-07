@@ -1,4 +1,7 @@
 import React, {Component, PropTypes} from 'react'
+import { connect } from 'react-redux'
+import * as actions from 'actions'
+
 
 class Search extends Component {
   constructor(props) {
@@ -6,14 +9,14 @@ class Search extends Component {
   }
 
   onSearchTermBy() {
-    const { handleSearchTermBy } = this.props
+    const { dispatch } = this.props
     const term = this.refs.searchTerm.value.trim().toLowerCase()
-    handleSearchTermBy(term)
+    dispatch(actions.searchTermBy(term))
   }
 
-  handleShowComplete(evt) {
-    const { handleShowComplete } = this.props
-    handleShowComplete(this.refs.showComplete.checked)
+  handleShowComplete() {
+    const { dispatch } = this.props
+    dispatch(actions.showComplete(this.refs.showComplete.checked))
   }
 
   render() {
@@ -27,7 +30,7 @@ class Search extends Component {
           onChange={() => this.onSearchTermBy()}
           />
         <form className="check-row">
-            <input className="search-show-complete" id="show-complete" type="checkbox" name="show-complete" ref="showComplete" onChange={() => this.handleShowComplete()}/>
+            <input className="search-show-complete" id="show-complete" type="checkbox" name="show-complete" ref="showComplete" onChange={::this.handleShowComplete}/>
             <label htmlFor="show-complete" >顯示已完成</label>
         </form>
       </div>
@@ -36,8 +39,6 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  handleSearchTermBy: PropTypes.func,
-  handleShowComplete: PropTypes.func
 }
 
-export default Search
+export default connect()(Search)

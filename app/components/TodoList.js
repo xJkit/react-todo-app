@@ -1,18 +1,29 @@
-import React, {PropTypes} from 'react'
+import React, { PropTypes, Component } from 'react'
+import { connect } from 'react-redux'
+
 //components
 import Todo from 'Todo'
 
 const TodoList = (props) => {
-  const {handleCompleteChecked} = props
+  
   return(
     <div className="todo-list">
-      {props.todos.map( todo => <Todo key={todo.id} {...todo} handleCompleteChecked={(checked, id) => handleCompleteChecked(checked, id)}/> )}
+    {props.todos.map( todo => <Todo key={todo.id} {...todo} /> )}
     </div>
   )
+
 }
+
+
 
 TodoList.propTypes = {
   todos: PropTypes.arrayOf(PropTypes.object)
 }
 
-export default TodoList
+export default connect(
+  (state) => {
+    return {
+      todos: state.todos
+    }
+  }
+)(TodoList)

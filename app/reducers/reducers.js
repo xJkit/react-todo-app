@@ -1,7 +1,9 @@
 import uuid from 'node-uuid'
 import moment from 'moment'
+// TodoAPI interact with localStorage
 
-export const searchTermBy = (state = '', action) => {
+
+export const term = (state = '', action) => {
   switch (action.type) {
     case 'SEARCH_TERM_BY':
       return action.term
@@ -10,7 +12,10 @@ export const searchTermBy = (state = '', action) => {
   }
 }
 
-export const todoReducer = (state = [], action) => {
+export const todos = (state = [], action) => {
+
+
+
   switch(action.type) {
     case 'ADD_TODO':
       return [

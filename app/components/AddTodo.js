@@ -1,14 +1,17 @@
 import React, {PropTypes} from 'react'
+import { connect } from 'react-redux'
+import * as actions from 'actions'
+
 
 const AddTodo = (props) => {
 
   const onAddTodo = (evt) => {
     evt.preventDefault()
-    const {handleAddTodo} = props
+    const { dispatch } = props
     const newTodoTitle = evt.target.elements[0].value
     if (newTodoTitle.length > 0){
       evt.target.elements[0].value = ""
-      handleAddTodo(newTodoTitle)
+      dispatch(actions.addTodo(newTodoTitle))
     } else {
       evt.target.elements[0].focus()
     }
@@ -23,7 +26,6 @@ const AddTodo = (props) => {
 }
 
 AddTodo.propTypes = {
-  handleAddTodo: PropTypes.func
 }
 
-export default AddTodo
+export default connect()(AddTodo)

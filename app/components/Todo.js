@@ -1,13 +1,15 @@
-import React, {PropTypes, Component} from 'react'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+import * as actions from 'actions'
 import moment from 'moment'
 
 const Todo = (props) => {
-  const {title, stamp, id, completed, handleCompleteChecked} = props
+  const {title, stamp, id, completed, dispatch} = props
 
   const onCompleteChecked = (evt) => {
     const checked = evt.target.checked
     const id = evt.target.id
-    handleCompleteChecked(checked, id)
+    dispatch(actions.completeChecked(checked, id))
   }
 
   const prettyStamp = (timeStamp) => (
@@ -39,8 +41,7 @@ Todo.propTypes = {
   title: PropTypes.string,
   id: PropTypes.string,
   completed: PropTypes.bool,
-  stamp: PropTypes.number,
-  handleCompleteChecked: PropTypes.func
+  stamp: PropTypes.number
 }
 
-export default Todo
+export default connect()(Todo)
