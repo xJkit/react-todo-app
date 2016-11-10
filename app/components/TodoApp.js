@@ -20,7 +20,7 @@ class TodoApp extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // TodoAPI.setTodos(this.state.todos)
+    TodoAPI.setTodos(prevProps.todos)
   }
 
   render() {
@@ -38,45 +38,10 @@ class TodoApp extends Component {
       </div>
     )
   }
-
-  // handleAddTodo(title) {
-  //   const {todos} = this.state
-  //   const newTodos = todos.concat({
-  //     id: uuid.v1(),
-  //     title: title,
-  //     stamp: moment().unix(),
-  //     completed: false
-  //   })
-  //   this.setState({
-  //     todos: newTodos
-  //   })
-  // }
-  //
-  // handleSearchTermBy(term) {
-  //   this.setState({
-  //     searchTerm: term
-  //   })
-  // }
-  //
-  // handleShowComplete(showComplete) {
-  //   this.setState({
-  //     showComplete: showComplete
-  //   })
-  // }
-  //
-  // handleCompleteChecked(checked, id) {
-  //   const {todos} = this.state
-  //
-  //   const newTodos = todos.map( todo => {
-  //     if(todo.id == id){
-  //       todo.completed = checked
-  //     }
-  //     return todo
-  //   })
-  //   this.setState({
-  //     todos: newTodos
-  //   })
-  // }
 }
 
-export default TodoApp
+export default connect(
+  (state) => ({
+    todos: state.todos
+  })
+)(TodoApp)

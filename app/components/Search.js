@@ -20,6 +20,7 @@ class Search extends Component {
   }
 
   render() {
+    const {showComplete} = this.props
     return(
       <div className="search">
         <input
@@ -30,7 +31,15 @@ class Search extends Component {
           onChange={() => this.onSearchTermBy()}
           />
         <form className="check-row">
-            <input className="search-show-complete" id="show-complete" type="checkbox" name="show-complete" ref="showComplete" onChange={::this.handleShowComplete}/>
+            <input
+              className="search-show-complete"
+              id="show-complete"
+              type="checkbox"
+              checked={showComplete}
+              name="show-complete"
+              ref="showComplete"
+              onChange={::this.handleShowComplete}
+            />
             <label htmlFor="show-complete" >顯示已完成</label>
         </form>
       </div>
@@ -41,4 +50,8 @@ class Search extends Component {
 Search.propTypes = {
 }
 
-export default connect()(Search)
+export default connect(
+  (state) => ({
+    showComplete: state.showComplete
+  })
+)(Search)

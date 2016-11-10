@@ -12,10 +12,16 @@ export const term = (state = '', action) => {
   }
 }
 
+export const showComplete = (state = false, action) => {
+  switch (action.type) {
+    case 'SHOW_COMPLETE':
+    return action.showComplete
+    default:
+    return state
+  }
+}
+
 export const todos = (state = [], action) => {
-
-
-
   switch(action.type) {
     case 'ADD_TODO':
       return [
@@ -40,15 +46,6 @@ export const todos = (state = [], action) => {
           }
         })
 
-    default:
-      return state
-  }
-}
-
-export const showComplete = (state = false, action) => {
-  switch (action.type) {
-    case 'SHOW_COMPLETE':
-      return action.showComplete
     default:
       return state
   }

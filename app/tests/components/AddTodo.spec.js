@@ -9,7 +9,7 @@ describe('<AddTodo />', () => {
     expect(AddTodo).toExist()
   })
 
-  it('should add todo item with valid input', () => {
+  it('should dispatch ADD_TODO action with valid input', () => {
     const spy = expect.createSpy()
     const wrapper = mount(<AddTodo handleAddTodo={spy}/>)
     wrapper.find('input').get(0).value = "123"

@@ -29654,7 +29654,7 @@
 	    key: 'componentDidUpdate',
 	    value: function () {
 	      function componentDidUpdate(prevProps, prevState) {
-	        // TodoAPI.setTodos(this.state.todos)
+	        _TodoAPI2['default'].setTodos(prevProps.todos);
 	      }
 	
 	      return componentDidUpdate;
@@ -29686,52 +29686,16 @@
 	
 	      return render;
 	    }()
-	
-	    // handleAddTodo(title) {
-	    //   const {todos} = this.state
-	    //   const newTodos = todos.concat({
-	    //     id: uuid.v1(),
-	    //     title: title,
-	    //     stamp: moment().unix(),
-	    //     completed: false
-	    //   })
-	    //   this.setState({
-	    //     todos: newTodos
-	    //   })
-	    // }
-	    //
-	    // handleSearchTermBy(term) {
-	    //   this.setState({
-	    //     searchTerm: term
-	    //   })
-	    // }
-	    //
-	    // handleShowComplete(showComplete) {
-	    //   this.setState({
-	    //     showComplete: showComplete
-	    //   })
-	    // }
-	    //
-	    // handleCompleteChecked(checked, id) {
-	    //   const {todos} = this.state
-	    //
-	    //   const newTodos = todos.map( todo => {
-	    //     if(todo.id == id){
-	    //       todo.completed = checked
-	    //     }
-	    //     return todo
-	    //   })
-	    //   this.setState({
-	    //     todos: newTodos
-	    //   })
-	    // }
-	
 	  }]);
 	
 	  return TodoApp;
 	}(_react.Component);
 	
-	exports['default'] = TodoApp;
+	exports['default'] = (0, _reactRedux.connect)(function (state) {
+	  return {
+	    todos: state.todos
+	  };
+	})(TodoApp);
 
 /***/ },
 /* 265 */
@@ -48876,6 +48840,8 @@
 	      function render() {
 	        var _this2 = this;
 	
+	        var showComplete = this.props.showComplete;
+	
 	        return _react2['default'].createElement(
 	          'div',
 	          { className: 'search' },
@@ -48895,7 +48861,15 @@
 	          _react2['default'].createElement(
 	            'form',
 	            { className: 'check-row' },
-	            _react2['default'].createElement('input', { className: 'search-show-complete', id: 'show-complete', type: 'checkbox', name: 'show-complete', ref: 'showComplete', onChange: this.handleShowComplete.bind(this) }),
+	            _react2['default'].createElement('input', {
+	              className: 'search-show-complete',
+	              id: 'show-complete',
+	              type: 'checkbox',
+	              checked: showComplete,
+	              name: 'show-complete',
+	              ref: 'showComplete',
+	              onChange: this.handleShowComplete.bind(this)
+	            }),
 	            _react2['default'].createElement(
 	              'label',
 	              { htmlFor: 'show-complete' },
@@ -48914,7 +48888,11 @@
 	
 	Search.propTypes = {};
 	
-	exports['default'] = (0, _reactRedux.connect)()(Search);
+	exports['default'] = (0, _reactRedux.connect)(function (state) {
+	  return {
+	    showComplete: state.showComplete
+	  };
+	})(Search);
 
 /***/ },
 /* 395 */
@@ -48981,30 +48959,47 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 172);
 	
+	var _TodoAPI = __webpack_require__(/*! TodoAPI */ 399);
+	
+	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
+	
 	var _Todo = __webpack_require__(/*! Todo */ 397);
 	
 	var _Todo2 = _interopRequireDefault(_Todo);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var TodoList = function TodoList(props) {
+	var TodoList = function TodoList(_ref) {
+	  var todos = _ref.todos,
+	      showComplete = _ref.showComplete,
+	      term = _ref.term;
+	
+	
+	  var renderTodoItem = function renderTodoItem() {
+	    var newTodos = _TodoAPI2['default'].filteredTodos(todos, term, showComplete);
+	    return newTodos.map(function (todo) {
+	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: todo.id }, todo));
+	    });
+	  };
 	
 	  return _react2['default'].createElement(
 	    'div',
 	    { className: 'todo-list' },
-	    props.todos.map(function (todo) {
-	      return _react2['default'].createElement(_Todo2['default'], _extends({ key: todo.id }, todo));
-	    })
+	    renderTodoItem()
 	  );
 	};
 	
 	TodoList.propTypes = {
-	  todos: _react.PropTypes.arrayOf(_react.PropTypes.object)
+	  todos: _react.PropTypes.arrayOf(_react.PropTypes.object),
+	  showComplete: _react.PropTypes.bool,
+	  term: _react.PropTypes.string
 	};
 	
 	exports['default'] = (0, _reactRedux.connect)(function (state) {
 	  return {
-	    todos: state.todos
+	    todos: state.todos,
+	    showComplete: state.showComplete,
+	    term: state.term
 	  };
 	})(TodoList);
 
@@ -49680,7 +49675,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.showComplete = exports.todos = exports.term = undefined;
+	exports.todos = exports.showComplete = exports.term = undefined;
 	
 	var _nodeUuid = __webpack_require__(/*! node-uuid */ 265);
 	
@@ -49709,10 +49704,21 @@
 	  }
 	};
 	
+	var showComplete = exports.showComplete = function showComplete() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'SHOW_COMPLETE':
+	      return action.showComplete;
+	    default:
+	      return state;
+	  }
+	};
+	
 	var todos = exports.todos = function todos() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var action = arguments[1];
-	
 	
 	  switch (action.type) {
 	    case 'ADD_TODO':
@@ -49734,18 +49740,6 @@
 	        }
 	      });
 	
-	    default:
-	      return state;
-	  }
-	};
-	
-	var showComplete = exports.showComplete = function showComplete() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case 'SHOW_COMPLETE':
-	      return action.showComplete;
 	    default:
 	      return state;
 	  }
