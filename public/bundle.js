@@ -59,6 +59,14 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 172);
 	
+	var _TodoAPI = __webpack_require__(/*! TodoAPI */ 397);
+	
+	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
+	
+	var _actions = __webpack_require__(/*! actions */ 395);
+	
+	var actions = _interopRequireWildcard(_actions);
+	
 	var _routes = __webpack_require__(/*! routes */ 202);
 	
 	var _routes2 = _interopRequireDefault(_routes);
@@ -69,10 +77,6 @@
 	
 	__webpack_require__(/*! style!css!sass!applicationStyles */ 401);
 	
-	var _actions = __webpack_require__(/*! actions */ 395);
-	
-	var actions = _interopRequireWildcard(_actions);
-	
 	var _configureStore = __webpack_require__(/*! configureStore */ 405);
 	
 	var _configureStore2 = _interopRequireDefault(_configureStore);
@@ -81,16 +85,17 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	// Load actions & store from redux
-	var store = (0, _configureStore2['default'])();
-	
 	// Load custom css: app.scss
 	
 	
 	// Load routes
+	var store = (0, _configureStore2['default'])();
+	//Initial Todos
 	
 	
-	store.dispatch(actions.addTodo('A new todo from dispatche action'));
+	// Load actions & store from redux
+	var initialTodos = _TodoAPI2['default'].getTodos('todos');
+	store.dispatch(actions.setTodos(initialTodos));
 	
 	_reactDom2['default'].render(_react2['default'].createElement(
 	  _reactRedux.Provider,
@@ -29608,6 +29613,10 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 172);
 	
+	var _actions = __webpack_require__(/*! actions */ 395);
+	
+	var actions = _interopRequireWildcard(_actions);
+	
 	var _Search = __webpack_require__(/*! Search */ 394);
 	
 	var _Search2 = _interopRequireDefault(_Search);
@@ -29616,13 +29625,15 @@
 	
 	var _TodoList2 = _interopRequireDefault(_TodoList);
 	
-	var _AddTodo = __webpack_require__(/*! AddTodo */ 398);
+	var _AddTodo = __webpack_require__(/*! AddTodo */ 399);
 	
 	var _AddTodo2 = _interopRequireDefault(_AddTodo);
 	
-	var _TodoAPI = __webpack_require__(/*! TodoAPI */ 399);
+	var _TodoAPI = __webpack_require__(/*! TodoAPI */ 397);
 	
 	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -29639,22 +29650,18 @@
 	var TodoApp = function (_Component) {
 	  _inherits(TodoApp, _Component);
 	
-	  function TodoApp(props) {
+	  function TodoApp() {
 	    _classCallCheck(this, TodoApp);
 	
-	    return _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
-	    // this.state = {
-	    //   todos: TodoAPI.getTodos("todos"),
-	    //   searchTerm: '',
-	    //   showComplete: false
-	    // }
+	    return _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).apply(this, arguments));
 	  }
 	
 	  _createClass(TodoApp, [{
 	    key: 'componentDidUpdate',
 	    value: function () {
-	      function componentDidUpdate(prevProps, prevState) {
-	        _TodoAPI2['default'].setTodos(prevProps.todos);
+	      function componentDidUpdate() {
+	        _TodoAPI2['default'].setTodos(this.props.todos);
+	        console.log('componentDidUpdate!');
 	      }
 	
 	      return componentDidUpdate;
@@ -29663,8 +29670,7 @@
 	    key: 'render',
 	    value: function () {
 	      function render() {
-	        // const {todos, searchTerm, showComplete} = this.state
-	        // const filteredTodos = TodoAPI.filteredTodos(todos, searchTerm, showComplete)
+	        console.log('component rendered!');
 	        return _react2['default'].createElement(
 	          'div',
 	          { className: 'todo-app' },
@@ -48920,6 +48926,13 @@
 	  };
 	};
 	
+	var setTodos = exports.setTodos = function setTodos(todos) {
+	  return {
+	    type: 'SET_TODOS',
+	    todos: todos
+	  };
+	};
+	
 	var showComplete = exports.showComplete = function showComplete(_showComplete) {
 	  return {
 	    type: 'SHOW_COMPLETE',
@@ -48959,11 +48972,11 @@
 	
 	var _reactRedux = __webpack_require__(/*! react-redux */ 172);
 	
-	var _TodoAPI = __webpack_require__(/*! TodoAPI */ 399);
+	var _TodoAPI = __webpack_require__(/*! TodoAPI */ 397);
 	
 	var _TodoAPI2 = _interopRequireDefault(_TodoAPI);
 	
-	var _Todo = __webpack_require__(/*! Todo */ 397);
+	var _Todo = __webpack_require__(/*! Todo */ 398);
 	
 	var _Todo2 = _interopRequireDefault(_Todo);
 	
@@ -49005,6 +49018,79 @@
 
 /***/ },
 /* 397 */
+/*!****************************!*\
+  !*** ./app/api/TodoAPI.js ***!
+  \****************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var TodoAPI = {
+	  setTodos: function () {
+	    function setTodos(todos) {
+	      //todos is an array of objects
+	      if (Array.isArray(todos)) {
+	        var strTodos = JSON.stringify(todos);
+	        localStorage.setItem("todos", strTodos);
+	      }
+	    }
+	
+	    return setTodos;
+	  }(),
+	  getTodos: function () {
+	    function getTodos(key) {
+	      var strTodos = localStorage.getItem(key);
+	      var todos = [];
+	      try {
+	        todos = JSON.parse(strTodos);
+	      } catch (err) {
+	        console.log(String(err) + ": some problem in parsing todos");
+	      }
+	
+	      return Array.isArray(todos) ? todos : [];
+	    }
+	
+	    return getTodos;
+	  }(),
+	  filteredTodos: function () {
+	    function filteredTodos(todos, searchTerm, showComplete) {
+	      var filteredTodos = todos;
+	      // filter with showComplete
+	      filteredTodos = filteredTodos.filter(function (todo) {
+	        return !todo.completed || showComplete;
+	      });
+	
+	      //filter with searchTerm
+	      filteredTodos = filteredTodos.filter(function (todo) {
+	        var searchText = searchTerm.toLowerCase();
+	        return searchText.length == 0 || todo.title.toLowerCase().indexOf(searchText) > -1;
+	      });
+	
+	      // sort todos with non-complete first
+	      filteredTodos.sort(function (a, b) {
+	        if (!a.completed && b.completed) {
+	          return -1;
+	        } else if (a.completed && !b.completed) {
+	          return 1;
+	        } else {
+	          return 0;
+	        }
+	      });
+	
+	      return filteredTodos;
+	    }
+	
+	    return filteredTodos;
+	  }()
+	};
+	
+	exports["default"] = TodoAPI;
+
+/***/ },
+/* 398 */
 /*!********************************!*\
   !*** ./app/components/Todo.js ***!
   \********************************/
@@ -49101,7 +49187,7 @@
 	exports['default'] = (0, _reactRedux.connect)()(Todo);
 
 /***/ },
-/* 398 */
+/* 399 */
 /*!***********************************!*\
   !*** ./app/components/AddTodo.js ***!
   \***********************************/
@@ -49163,79 +49249,6 @@
 	AddTodo.propTypes = {};
 	
 	exports['default'] = (0, _reactRedux.connect)()(AddTodo);
-
-/***/ },
-/* 399 */
-/*!****************************!*\
-  !*** ./app/api/TodoAPI.js ***!
-  \****************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var TodoAPI = {
-	  setTodos: function () {
-	    function setTodos(todos) {
-	      //todos is an array of objects
-	      if (Array.isArray(todos)) {
-	        var strTodos = JSON.stringify(todos);
-	        localStorage.setItem("todos", strTodos);
-	      }
-	    }
-	
-	    return setTodos;
-	  }(),
-	  getTodos: function () {
-	    function getTodos(key) {
-	      var strTodos = localStorage.getItem(key);
-	      var todos = [];
-	      try {
-	        todos = JSON.parse(strTodos);
-	      } catch (err) {
-	        console.log(String(err) + ": some problem in parsing todos");
-	      }
-	
-	      return Array.isArray(todos) ? todos : [];
-	    }
-	
-	    return getTodos;
-	  }(),
-	  filteredTodos: function () {
-	    function filteredTodos(todos, searchTerm, showComplete) {
-	      var filteredTodos = todos;
-	      // filter with showComplete
-	      filteredTodos = filteredTodos.filter(function (todo) {
-	        return !todo.completed || showComplete;
-	      });
-	
-	      //filter with searchTerm
-	      filteredTodos = filteredTodos.filter(function (todo) {
-	        var searchText = searchTerm.toLowerCase();
-	        return searchText.length == 0 || todo.title.toLowerCase().indexOf(searchText) > -1;
-	      });
-	
-	      // sort todos with non-complete first
-	      filteredTodos.sort(function (a, b) {
-	        if (!a.completed && b.completed) {
-	          return -1;
-	        } else if (a.completed && !b.completed) {
-	          return 1;
-	        } else {
-	          return 0;
-	        }
-	      });
-	
-	      return filteredTodos;
-	    }
-	
-	    return filteredTodos;
-	  }()
-	};
-	
-	exports["default"] = TodoAPI;
 
 /***/ },
 /* 400 */
@@ -49739,6 +49752,9 @@
 	          return todo;
 	        }
 	      });
+	
+	    case 'SET_TODOS':
+	      return [].concat(_toConsumableArray(action.todos));
 	
 	    default:
 	      return state;

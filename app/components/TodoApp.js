@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import uuid from 'node-uuid'
 import moment from 'moment'
 import { connect } from 'react-redux'
+import * as actions from 'actions'
 //components
 import Search from 'Search'
 import TodoList from 'TodoList'
@@ -10,22 +11,15 @@ import AddTodo from 'AddTodo'
 import TodoAPI from 'TodoAPI'
 
 class TodoApp extends Component {
-  constructor(props) {
-    super(props)
-    // this.state = {
-    //   todos: TodoAPI.getTodos("todos"),
-    //   searchTerm: '',
-    //   showComplete: false
-    // }
-  }
 
-  componentDidUpdate(prevProps, prevState) {
-    TodoAPI.setTodos(prevProps.todos)
+
+  componentDidUpdate() {
+    TodoAPI.setTodos(this.props.todos)
+    console.log('componentDidUpdate!')
   }
 
   render() {
-    // const {todos, searchTerm, showComplete} = this.state
-    // const filteredTodos = TodoAPI.filteredTodos(todos, searchTerm, showComplete)
+    console.log('component rendered!')
     return(
       <div className="todo-app">
         <h1>Todo App</h1>

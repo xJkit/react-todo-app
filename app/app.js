@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import TodoAPI from 'TodoAPI'
+import * as actions from 'actions'
 
 // Load routes
 import routes from 'routes'
@@ -10,11 +12,13 @@ import TodoApp from 'TodoApp'
 import 'style!css!sass!applicationStyles'
 
 // Load actions & store from redux
-import * as actions from 'actions'
 import configureStore from 'configureStore'
 const store = configureStore()
+//Initial Todos
+const initialTodos = TodoAPI.getTodos('todos')
+store.dispatch(actions.setTodos(initialTodos))
 
-store.dispatch(actions.addTodo('A new todo from dispatche action'))
+
 
 ReactDOM.render(
   <Provider store={store}>

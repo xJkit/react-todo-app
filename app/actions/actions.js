@@ -13,6 +13,11 @@ export const addTodo = (title) => {
   }
 }
 
+export const setTodos = (todos) => ({
+  type: 'SET_TODOS',
+  todos
+})
+
 export const showComplete = (showComplete) => {
   return {
     type: 'SHOW_COMPLETE',
