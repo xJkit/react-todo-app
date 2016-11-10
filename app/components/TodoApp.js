@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import uuid from 'node-uuid'
 import moment from 'moment'
 import { connect } from 'react-redux'
-import * as actions from 'actions'
 //components
 import Search from 'Search'
 import TodoList from 'TodoList'
@@ -35,7 +34,7 @@ class TodoApp extends Component {
 }
 
 export default connect(
-  (state) => ({
+  state => ({
     todos: state.todos
   })
 )(TodoApp)

@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as actions from 'actions'
 
@@ -7,11 +8,11 @@ const AddTodo = (props) => {
 
   const onAddTodo = (evt) => {
     evt.preventDefault()
-    const { dispatch } = props
+    const { addTodoActions } = props
     const newTodoTitle = evt.target.elements[0].value
     if (newTodoTitle.length > 0){
       evt.target.elements[0].value = ""
-      dispatch(actions.addTodo(newTodoTitle))
+      addTodoActions(newTodoTitle)
     } else {
       evt.target.elements[0].focus()
     }
@@ -28,4 +29,8 @@ const AddTodo = (props) => {
 AddTodo.propTypes = {
 }
 
-export default connect()(AddTodo)
+export default connect(
+  () => ({}), dispatch => ({
+    addTodoActions: bindActionCreators(actions.addTodo, dispatch)
+  })
+)(AddTodo)
