@@ -14,11 +14,8 @@ export class TodoApp extends Component {
 
   componentDidUpdate() {
     TodoAPI.setTodos(this.props.todos)
-    console.log('componentDidUpdate!')
-  }
 
   render() {
-    console.log('component rendered!')
     return(
       <div className="todo-app">
         <h1>Todo App</h1>
