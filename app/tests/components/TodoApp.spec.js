@@ -2,10 +2,7 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import expect from 'expect'
 import { Provider } from 'react-redux'
-import configureStore
-
-
-import TodoApp from 'TodoApp'
+import { TodoApp } from 'TodoApp'
 
 describe('<TodoApp />', () => {
   it('should exist', () => {

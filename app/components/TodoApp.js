@@ -9,7 +9,7 @@ import AddTodo from 'AddTodo'
 //APIs
 import TodoAPI from 'TodoAPI'
 
-class TodoApp extends Component {
+export class TodoApp extends Component {
 
 
   componentDidUpdate() {
