@@ -14,6 +14,7 @@ export class TodoApp extends Component {
 
   componentDidUpdate() {
     TodoAPI.setTodos(this.props.todos)
+  }
 
   render() {
     return(
